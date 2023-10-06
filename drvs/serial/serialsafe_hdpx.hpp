@@ -40,4 +40,4 @@ private:
   void onAsyncComplete(int bytesCount, int err);
 };
 
-#endif /*_SERIALSAFE_ÐDPX_HPP_*/
+#endif /*_SERIALSAFE_ï¿½DPX_HPP_*/

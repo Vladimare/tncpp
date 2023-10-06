@@ -1,7 +1,7 @@
 #ifndef _CORE13xx_H_
 #define _CORE13xx_H_
 
-#define VECTORS_COUNT     57          /* количество векторов прерываний                 */
+#define VECTORS_COUNT     57          /* РєРѕР»РёС‡РµСЃС‚РІРѕ РІРµРєС‚РѕСЂРѕРІ РїСЂРµСЂС‹РІР°РЅРёР№                 */
 
 #include "core.h"
 

@@ -37,8 +37,8 @@ void sysmon::run()
   unsigned char verb = verbosity;
   char control = '\0';
 
-  if(!syslog::g_log)                  /* åñëè íå êðóòèòñÿ ñèñòåìíûé ëîã, òî ìîíèòîðó    */
-    this->exit(0);                    /*   òîæå äåëàòü íå÷åãî                           */
+  if(!syslog::g_log)                  /* ÐµÑÐ»Ð¸ Ð½Ðµ ÐºÑ€ÑƒÑ‚Ð¸Ñ‚ÑÑ ÑÐ¸ÑÑ‚ÐµÐ¼Ð½Ñ‹Ð¹ Ð»Ð¾Ð³, Ñ‚Ð¾ Ð¼Ð¾Ð½Ð¸Ñ‚Ð¾Ñ€Ñƒ    */
+    this->exit(0);                    /*   Ñ‚Ð¾Ð¶Ðµ Ð´ÐµÐ»Ð°Ñ‚ÑŒ Ð½ÐµÑ‡ÐµÐ³Ð¾                           */
 
   syslog::g_log->changeVerbosity(verb);
 

@@ -25,8 +25,8 @@ gm3x0_560::gm3x0_560(timer* t, unsigned long pclk)
 
   this->onOffButtonUnblock();
   this->offPower();
-  this->deactivateCH0();              /* äëÿ ðàçðåøåíèÿ ïåðåêëþ÷åíèÿ ãîëîñîâûõ êàíàëîâ  *
-                                       *   çàìåíèòü íà âûçîâ activateCH0()              */
+  this->deactivateCH0();              /* Ð´Ð»Ñ Ñ€Ð°Ð·Ñ€ÐµÑˆÐµÐ½Ð¸Ñ Ð¿ÐµÑ€ÐµÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ñ Ð³Ð¾Ð»Ð¾ÑÐ¾Ð²Ñ‹Ñ… ÐºÐ°Ð½Ð°Ð»Ð¾Ð²  *
+                                       *   Ð·Ð°Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ Ð½Ð° Ð²Ñ‹Ð·Ð¾Ð² activateCH0()              */
   this->deactivateCH1();
   this->deactivatePTT();
 }

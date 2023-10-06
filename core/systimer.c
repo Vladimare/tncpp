@@ -12,13 +12,13 @@
 #include "systimer.h"
 
 
-volatile unsigned long sys_uptime_lo = 0;   /* младшая половина значения системного времени */
-volatile unsigned long sys_uptime_hi = 0;   /* старшая половина значения системного времени */
+volatile unsigned long sys_uptime_lo = 0;   /* РјР»Р°РґС€Р°СЏ РїРѕР»РѕРІРёРЅР° Р·РЅР°С‡РµРЅРёСЏ СЃРёСЃС‚РµРјРЅРѕРіРѕ РІСЂРµРјРµРЅРё */
+volatile unsigned long sys_uptime_hi = 0;   /* СЃС‚Р°СЂС€Р°СЏ РїРѕР»РѕРІРёРЅР° Р·РЅР°С‡РµРЅРёСЏ СЃРёСЃС‚РµРјРЅРѕРіРѕ РІСЂРµРјРµРЅРё */
 
 
 #ifdef TNKERNEL_PORT_CORTEXM3
 
-CDLL_QUEUE defer_task_queue;                /* очередь отложенных задач                     */
+CDLL_QUEUE defer_task_queue;                /* РѕС‡РµСЂРµРґСЊ РѕС‚Р»РѕР¶РµРЅРЅС‹С… Р·Р°РґР°С‡                     */
 
 #endif
 
@@ -34,7 +34,7 @@ void systimerInit()
 
 #ifdef TNKERNEL_PORT_CORTEXM3
 
-  queue_reset(&defer_task_queue);           /* сброс очереди отложенных задач           */
+  queue_reset(&defer_task_queue);           /* СЃР±СЂРѕСЃ РѕС‡РµСЂРµРґРё РѕС‚Р»РѕР¶РµРЅРЅС‹С… Р·Р°РґР°С‡           */
 
 #endif
 }
@@ -66,7 +66,7 @@ unsigned long systimerUptimeSec()
 
   __enable_irq();
 
-  ticks = ticks / (1000 / SYSTIMER_PERIOD);/* приоритеты операций не менять!                 */
+  ticks = ticks / (1000 / SYSTIMER_PERIOD);/* РїСЂРёРѕСЂРёС‚РµС‚С‹ РѕРїРµСЂР°С†РёР№ РЅРµ РјРµРЅСЏС‚СЊ!                 */
 
   return (unsigned long)(ticks & 0xFFFFFFFFul);
 }
@@ -125,7 +125,7 @@ void delay(unsigned long msec)
 
 #ifdef TNKERNEL_PORT_CORTEXM3
 
-/* принимает описатель задачи, и вставляет его в список отложенных задач */
+/* РїСЂРёРЅРёРјР°РµС‚ РѕРїРёСЃР°С‚РµР»СЊ Р·Р°РґР°С‡Рё, Рё РІСЃС‚Р°РІР»СЏРµС‚ РµРіРѕ РІ СЃРїРёСЃРѕРє РѕС‚Р»РѕР¶РµРЅРЅС‹С… Р·Р°РґР°С‡ */
 void systimerExecLater(deferred_task* task)
 {
   if(!task->task)
@@ -135,7 +135,7 @@ void systimerExecLater(deferred_task* task)
   task->ticksToRun = task->ticksTotal;
 }
 
-/* принимает описатель задачи, и удаляет его из списка отложенных задач */
+/* РїСЂРёРЅРёРјР°РµС‚ РѕРїРёСЃР°С‚РµР»СЊ Р·Р°РґР°С‡Рё, Рё СѓРґР°Р»СЏРµС‚ РµРіРѕ РёР· СЃРїРёСЃРєР° РѕС‚Р»РѕР¶РµРЅРЅС‹С… Р·Р°РґР°С‡ */
 void systimerCancelExec(deferred_task* task)
 {
   if(queue_contains_entry(&defer_task_queue, &(task->task_queue)))

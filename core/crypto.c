@@ -3,11 +3,11 @@
 
 #include <string.h>
 
-//начальный блок для шифрования
+//РЅР°С‡Р°Р»СЊРЅС‹Р№ Р±Р»РѕРє РґР»СЏ С€РёС„СЂРѕРІР°РЅРёСЏ
 unsigned char const crypto_start_chain[16] = 
 {0xF0, 0xF1, 0xF2, 0xF3, 0xF4, 0xF5, 0xF6, 0xF7, 0xF8, 0xF9, 0xFA, 0xFB, 0xFC, 0xFD, 0xFE, 0xFF};
 
-//таблица обратных перестановок для алгоритма AES. Посчитана заранее и размещена в ПЗУ для экономии ОЗУ
+//С‚Р°Р±Р»РёС†Р° РѕР±СЂР°С‚РЅС‹С… РїРµСЂРµСЃС‚Р°РЅРѕРІРѕРє РґР»СЏ Р°Р»РіРѕСЂРёС‚РјР° AES. РџРѕСЃС‡РёС‚Р°РЅР° Р·Р°СЂР°РЅРµРµ Рё СЂР°Р·РјРµС‰РµРЅР° РІ РџР—РЈ РґР»СЏ СЌРєРѕРЅРѕРјРёРё РћР—РЈ
 const unsigned char sBoxInv[256]=
 {
   0x52, 0x09, 0x6A, 0xD5, 0x30, 0x36, 0xA5, 0x38,
@@ -44,8 +44,8 @@ const unsigned char sBoxInv[256]=
   0xE1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0C, 0x7D
 };
 
-//расширенный ключ, полученный из 16 байтного ключа стандартным способом, принятым в AES
-//  готовится отдельно и подставляется в программу
+//СЂР°СЃС€РёСЂРµРЅРЅС‹Р№ РєР»СЋС‡, РїРѕР»СѓС‡РµРЅРЅС‹Р№ РёР· 16 Р±Р°Р№С‚РЅРѕРіРѕ РєР»СЋС‡Р° СЃС‚Р°РЅРґР°СЂС‚РЅС‹Рј СЃРїРѕСЃРѕР±РѕРј, РїСЂРёРЅСЏС‚С‹Рј РІ AES
+//  РіРѕС‚РѕРІРёС‚СЃСЏ РѕС‚РґРµР»СЊРЅРѕ Рё РїРѕРґСЃС‚Р°РІР»СЏРµС‚СЃСЏ РІ РїСЂРѕРіСЂР°РјРјСѓ
 const unsigned char ExKey[EXPANDED_KEY_SIZE] =
 {
   0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
@@ -61,10 +61,10 @@ const unsigned char ExKey[EXPANDED_KEY_SIZE] =
   0xFD,0x01,0xE0,0x37,0x05,0xB2,0x6D,0x93,0x05,0xAC,0x0E,0x76,0xCE,0x68,0xCA,0xA8
 };
 
-//операция XOR над массивом байт
-//  bytes1 - указатель на первыйы массив байт
-//  bytes2 - указатель на второй массив байт
-//  count - количество байт для обработки, кратно 4
+//РѕРїРµСЂР°С†РёСЏ XOR РЅР°Рґ РјР°СЃСЃРёРІРѕРј Р±Р°Р№С‚
+//  bytes1 - СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РїРµСЂРІС‹Р№С‹ РјР°СЃСЃРёРІ Р±Р°Р№С‚
+//  bytes2 - СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РІС‚РѕСЂРѕР№ РјР°СЃСЃРёРІ Р±Р°Р№С‚
+//  count - РєРѕР»РёС‡РµСЃС‚РІРѕ Р±Р°Р№С‚ РґР»СЏ РѕР±СЂР°Р±РѕС‚РєРё, РєСЂР°С‚РЅРѕ 4
 void cr_XORbytes(unsigned char* bytes1, const unsigned char* bytes2, unsigned char count)
 {
   do
@@ -75,8 +75,8 @@ void cr_XORbytes(unsigned char* bytes1, const unsigned char* bytes2, unsigned ch
   }while(--count);
 }
 
-//обратный сдвиг колонок
-//  state - указатель на "состояние"
+//РѕР±СЂР°С‚РЅС‹Р№ СЃРґРІРёРі РєРѕР»РѕРЅРѕРє
+//  state - СѓРєР°Р·Р°С‚РµР»СЊ РЅР° "СЃРѕСЃС‚РѕСЏРЅРёРµ"
 void cr_invShiftRows(unsigned char* state)
 {
   unsigned char temp;
@@ -102,10 +102,10 @@ void cr_invShiftRows(unsigned char* state)
   state[3 + 3 * 4] = temp;
 }
 
-//обратная подстановка байт и XOR с ключом
-//  bytes - указатель на обрабатываемый массив
-//  key - ключ
-//  count - количество байт для работы
+//РѕР±СЂР°С‚РЅР°СЏ РїРѕРґСЃС‚Р°РЅРѕРІРєР° Р±Р°Р№С‚ Рё XOR СЃ РєР»СЋС‡РѕРј
+//  bytes - СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РѕР±СЂР°Р±Р°С‚С‹РІР°РµРјС‹Р№ РјР°СЃСЃРёРІ
+//  key - РєР»СЋС‡
+//  count - РєРѕР»РёС‡РµСЃС‚РІРѕ Р±Р°Р№С‚ РґР»СЏ СЂР°Р±РѕС‚С‹
 void cr_invSubBytesAndXOR(unsigned char* bytes, const unsigned char* key, unsigned char count)
 {
   do
@@ -116,8 +116,8 @@ void cr_invSubBytesAndXOR(unsigned char* bytes, const unsigned char* key, unsign
   }while(--count);
 }
 
-//обратное перемешивание колонки
-//  column - указатель на колонку
+//РѕР±СЂР°С‚РЅРѕРµ РїРµСЂРµРјРµС€РёРІР°РЅРёРµ РєРѕР»РѕРЅРєРё
+//  column - СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РєРѕР»РѕРЅРєСѓ
 void cr_invMixColumn(unsigned char* column)
 {
   unsigned char r0, r1, r2, r3;
@@ -156,8 +156,8 @@ void cr_invMixColumn(unsigned char* column)
   column[3] = r3;
  }
 
-//обратное перемешивание колонок
-//  state - указатель на "состояние"
+//РѕР±СЂР°С‚РЅРѕРµ РїРµСЂРµРјРµС€РёРІР°РЅРёРµ РєРѕР»РѕРЅРѕРє
+//  state - СѓРєР°Р·Р°С‚РµР»СЊ РЅР° "СЃРѕСЃС‚РѕСЏРЅРёРµ"
 void cr_invMixColumns(unsigned char* state)
 {
   cr_invMixColumn(state + 0 * 4);
@@ -166,9 +166,9 @@ void cr_invMixColumns(unsigned char* state)
   cr_invMixColumn(state + 3 * 4);
 }
 
-//кодирование блока
-//  block - указатель на блок данных
-//  expandedKey - указатель на расширенный ключ
+//РєРѕРґРёСЂРѕРІР°РЅРёРµ Р±Р»РѕРєР°
+//  block - СѓРєР°Р·Р°С‚РµР»СЊ РЅР° Р±Р»РѕРє РґР°РЅРЅС‹С…
+//  expandedKey - СѓРєР°Р·Р°С‚РµР»СЊ РЅР° СЂР°СЃС€РёСЂРµРЅРЅС‹Р№ РєР»СЋС‡
 void cr_inv_crypt(unsigned char* block, const unsigned char* expandedKey)
 {
   unsigned char round = ROUNDS - 1;
@@ -186,9 +186,9 @@ void cr_inv_crypt(unsigned char* block, const unsigned char* expandedKey)
   cr_invSubBytesAndXOR(block, expandedKey, 16);
 }
 
-//расшифровка блока с учетом chainBlock, который остается от обработки предыдущего блока
-//  buffer - указатель на блок
-//  chainBlock - указатель на сhainBlock
+//СЂР°СЃС€РёС„СЂРѕРІРєР° Р±Р»РѕРєР° СЃ СѓС‡РµС‚РѕРј chainBlock, РєРѕС‚РѕСЂС‹Р№ РѕСЃС‚Р°РµС‚СЃСЏ РѕС‚ РѕР±СЂР°Р±РѕС‚РєРё РїСЂРµРґС‹РґСѓС‰РµРіРѕ Р±Р»РѕРєР°
+//  buffer - СѓРєР°Р·Р°С‚РµР»СЊ РЅР° Р±Р»РѕРє
+//  chainBlock - СѓРєР°Р·Р°С‚РµР»СЊ РЅР° СЃhainBlock
 void cr_aes_decrypt(unsigned char* buffer, unsigned char* chainBlock)
 {
   unsigned char temp[BLOCKSIZE];
@@ -197,10 +197,10 @@ void cr_aes_decrypt(unsigned char* buffer, unsigned char* chainBlock)
   cr_XORbytes(buffer, chainBlock, BLOCKSIZE);
   memcpy(chainBlock, temp, BLOCKSIZE);
 }
-//расшифровка блока сектора (внутри блока находится и контрольная сумма)
-//  размер сектора 1024 байт
-//  blk - указатель на буфер с шифрованными данными
-//  возвращает контрольную сумму расшифрованного сектора
+//СЂР°СЃС€РёС„СЂРѕРІРєР° Р±Р»РѕРєР° СЃРµРєС‚РѕСЂР° (РІРЅСѓС‚СЂРё Р±Р»РѕРєР° РЅР°С…РѕРґРёС‚СЃСЏ Рё РєРѕРЅС‚СЂРѕР»СЊРЅР°СЏ СЃСѓРјРјР°)
+//  СЂР°Р·РјРµСЂ СЃРµРєС‚РѕСЂР° 1024 Р±Р°Р№С‚
+//  blk - СѓРєР°Р·Р°С‚РµР»СЊ РЅР° Р±СѓС„РµСЂ СЃ С€РёС„СЂРѕРІР°РЅРЅС‹РјРё РґР°РЅРЅС‹РјРё
+//  РІРѕР·РІСЂР°С‰Р°РµС‚ РєРѕРЅС‚СЂРѕР»СЊРЅСѓСЋ СЃСѓРјРјСѓ СЂР°СЃС€РёС„СЂРѕРІР°РЅРЅРѕРіРѕ СЃРµРєС‚РѕСЂР°
 unsigned long cr_decrypt_sector(unsigned char* blk)
 {
   static volatile unsigned long j = 0;
@@ -216,9 +216,9 @@ unsigned long cr_decrypt_sector(unsigned char* blk)
     cr_aes_decrypt(dst, chain);
     dst += 16;
   }
-  crc = ntohl(*((unsigned long*)blk));//первые 16 байт это заголовок с контрольной суммой и со случайными данными
+  crc = ntohl(*((unsigned long*)blk));//РїРµСЂРІС‹Рµ 16 Р±Р°Р№С‚ СЌС‚Рѕ Р·Р°РіРѕР»РѕРІРѕРє СЃ РєРѕРЅС‚СЂРѕР»СЊРЅРѕР№ СЃСѓРјРјРѕР№ Рё СЃРѕ СЃР»СѓС‡Р°Р№РЅС‹РјРё РґР°РЅРЅС‹РјРё
   dst = blk + 16;
-  for(j = 0; j < 1024; j++)           //сдвиг данных на место заголовка
+  for(j = 0; j < 1024; j++)           //СЃРґРІРёРі РґР°РЅРЅС‹С… РЅР° РјРµСЃС‚Рѕ Р·Р°РіРѕР»РѕРІРєР°
   {
     *blk++ = *dst++;
   }

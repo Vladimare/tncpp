@@ -53,7 +53,7 @@ syslog::~syslog()
 int syslog::write(unsigned int v, const char* fmt, ...)
 {
   if(v > this->verbosity)
-    return ERR_OK;                    /* недостаточная глубина лога                     */
+    return ERR_OK;                    /* РЅРµРґРѕСЃС‚Р°С‚РѕС‡РЅР°СЏ РіР»СѓР±РёРЅР° Р»РѕРіР°                     */
 
   va_list marker;
 
@@ -81,7 +81,7 @@ int syslog::write(unsigned int v, const char* fmt, ...)
 int syslog::writeva(unsigned int v, const char* fmt, va_list args)
 {
   if(v > this->verbosity)
-    return ERR_OK;                    /* недостаточная глубина лога                     */
+    return ERR_OK;                    /* РЅРµРґРѕСЃС‚Р°С‚РѕС‡РЅР°СЏ РіР»СѓР±РёРЅР° Р»РѕРіР°                     */
 
 #ifdef TNKERNEL_PORT_CORTEXM3
   this->synclock.lock(TN_WAIT_INFINITE);
@@ -103,7 +103,7 @@ int syslog::writeva(unsigned int v, const char* fmt, va_list args)
 int syslog::writebuf(unsigned int v, const unsigned char* buf, unsigned long length)
 {
   if(v > this->verbosity)
-    return ERR_OK;                    /* недостаточная глубина лога                     */
+    return ERR_OK;                    /* РЅРµРґРѕСЃС‚Р°С‚РѕС‡РЅР°СЏ РіР»СѓР±РёРЅР° Р»РѕРіР°                     */
 
 #ifdef TNKERNEL_PORT_CORTEXM3
   this->synclock.lock(TN_WAIT_INFINITE);

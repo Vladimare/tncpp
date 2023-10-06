@@ -4,22 +4,22 @@
 
 ssp_light::ssp_light(LPC_SSP_TypeDef* phy, sspCreationDisposition* cd)
 {
-  //Инициализация полей объекта
+  //РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїРѕР»РµР№ РѕР±СЉРµРєС‚Р°
   this->low = phy;
   this->pinSetupProc = cd->pinProc;
   this->pwrMask = cd->pwrMask;
 
-  LPC_SC->PCONP |= this->pwrMask;//Включение питания периферийного блока SSP
+  LPC_SC->PCONP |= this->pwrMask;//Р’РєР»СЋС‡РµРЅРёРµ РїРёС‚Р°РЅРёСЏ РїРµСЂРёС„РµСЂРёР№РЅРѕРіРѕ Р±Р»РѕРєР° SSP
 
   if(this->pinSetupProc)
-    this->pinSetupProc(false);//Конфигурирование портов SSP
+    this->pinSetupProc(false);//РљРѕРЅС„РёРіСѓСЂРёСЂРѕРІР°РЅРёРµ РїРѕСЂС‚РѕРІ SSP
   this->low->CR1 = 0x00;
-                                      /* Наcтройка параметров: разрядность,   *
-                                       * тип протокола, CPOL и CPHA для SPI   */
+                                      /* РќР°cС‚СЂРѕР№РєР° РїР°СЂР°РјРµС‚СЂРѕРІ: СЂР°Р·СЂСЏРґРЅРѕСЃС‚СЊ,   *
+                                       * С‚РёРї РїСЂРѕС‚РѕРєРѕР»Р°, CPOL Рё CPHA РґР»СЏ SPI   */
   this->low->CR0 = (SSP_DSS_8 | (cd->format << 4) | (cd->cpol << 6) | (cd->cpha << 7));
 
-  this->low->CPSR = 0x02;//Делитель частоты, должен быть кратным 2
-  this->low->IMSC = 0x00;//Сброс маски прерываний
+  this->low->CPSR = 0x02;//Р”РµР»РёС‚РµР»СЊ С‡Р°СЃС‚РѕС‚С‹, РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РєСЂР°С‚РЅС‹Рј 2
+  this->low->IMSC = 0x00;//РЎР±СЂРѕСЃ РјР°СЃРєРё РїСЂРµСЂС‹РІР°РЅРёР№
 
   this->ps  = serialPort::defSSPSettings;
   this->init(this->ps);
@@ -27,28 +27,28 @@ ssp_light::ssp_light(LPC_SSP_TypeDef* phy, sspCreationDisposition* cd)
 
 ssp_light::~ssp_light()
 {
-  if(this->pinSetupProc)//Разконфигурирование портов SSP
+  if(this->pinSetupProc)//Р Р°Р·РєРѕРЅС„РёРіСѓСЂРёСЂРѕРІР°РЅРёРµ РїРѕСЂС‚РѕРІ SSP
     this->pinSetupProc(true);
-  LPC_SC->PCONP &= ~this->pwrMask;//Отключение питания от перефирийного блока SSP
+  LPC_SC->PCONP &= ~this->pwrMask;//РћС‚РєР»СЋС‡РµРЅРёРµ РїРёС‚Р°РЅРёСЏ РѕС‚ РїРµСЂРµС„РёСЂРёР№РЅРѕРіРѕ Р±Р»РѕРєР° SSP
 }
 
 
-//Инициализация/изменение настроек SSP
+//РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ/РёР·РјРµРЅРµРЅРёРµ РЅР°СЃС‚СЂРѕРµРє SSP
 int ssp_light::init(const portSettings& ps)
 {
   unsigned int preclk;
   unsigned int cpsr;
   unsigned char scr;
-  //Сохранение настроек порта
+  //РЎРѕС…СЂР°РЅРµРЅРёРµ РЅР°СЃС‚СЂРѕРµРє РїРѕСЂС‚Р°
   this->ps = ps;
-  //Проверка на корректность разрядности данных
+  //РџСЂРѕРІРµСЂРєР° РЅР° РєРѕСЂСЂРµРєС‚РЅРѕСЃС‚СЊ СЂР°Р·СЂСЏРґРЅРѕСЃС‚Рё РґР°РЅРЅС‹С…
   if((ps.dataBits < SSPSIZE_4) || (ps.dataBits > SSPSIZE_16))
     return TERR_WRONG_PARAM;
-  //Проверка на корректность соответсвия частоты периферийного блока SSP и скорости работы интерфейса
+  //РџСЂРѕРІРµСЂРєР° РЅР° РєРѕСЂСЂРµРєС‚РЅРѕСЃС‚СЊ СЃРѕРѕС‚РІРµС‚СЃРІРёСЏ С‡Р°СЃС‚РѕС‚С‹ РїРµСЂРёС„РµСЂРёР№РЅРѕРіРѕ Р±Р»РѕРєР° SSP Рё СЃРєРѕСЂРѕСЃС‚Рё СЂР°Р±РѕС‚С‹ РёРЅС‚РµСЂС„РµР№СЃР°
   if(ps.baudrate > (ps.pclk / 2))
     return TERR_WRONG_PARAM;
-  //Настройка делителей SSP в соответсвии с частотой периферийного блока SSP и скоростью работы интерфейса
-  //в соответсвии с формулой BaudRate = PCLK/(CPSDVSR*(SCR+1)),где SCR(0..255), CPSDVSR(2..4..6..8.....254)
+  //РќР°СЃС‚СЂРѕР№РєР° РґРµР»РёС‚РµР»РµР№ SSP РІ СЃРѕРѕС‚РІРµС‚СЃРІРёРё СЃ С‡Р°СЃС‚РѕС‚РѕР№ РїРµСЂРёС„РµСЂРёР№РЅРѕРіРѕ Р±Р»РѕРєР° SSP Рё СЃРєРѕСЂРѕСЃС‚СЊСЋ СЂР°Р±РѕС‚С‹ РёРЅС‚РµСЂС„РµР№СЃР°
+  //РІ СЃРѕРѕС‚РІРµС‚СЃРІРёРё СЃ С„РѕСЂРјСѓР»РѕР№ BaudRate = PCLK/(CPSDVSR*(SCR+1)),РіРґРµ SCR(0..255), CPSDVSR(2..4..6..8.....254)
   preclk = ps.pclk / ps.baudrate;
   cpsr = (preclk >> 8);
   if(!cpsr)
@@ -59,7 +59,7 @@ int ssp_light::init(const portSettings& ps)
     return TERR_WRONG_PARAM;
   scr = (preclk / cpsr) - 1;
 
-  //Изменение параметров SSP
+  //РР·РјРµРЅРµРЅРёРµ РїР°СЂР°РјРµС‚СЂРѕРІ SSP
   this->low->CR1 = 0x00;
   this->low->CR0 &= ~0x0F;
   this->low->CR0 |= ps.dataBits;
@@ -76,7 +76,7 @@ int ssp_light::sendchar(unsigned char c)
 }
 
 
-//Статический метод конфигурирования ножек SSP0 вариант 1
+//РЎС‚Р°С‚РёС‡РµСЃРєРёР№ РјРµС‚РѕРґ РєРѕРЅС„РёРіСѓСЂРёСЂРѕРІР°РЅРёСЏ РЅРѕР¶РµРє SSP0 РІР°СЂРёР°РЅС‚ 1
 //SCK0  - P0.15
 //MISO0 - P0.17
 //MOSI0 - P0.18
@@ -92,7 +92,7 @@ void ssp_light::pinSetupSSP0_0(unsigned char setDefault)
   }
 }
 
-//Статический метод конфигурирования ножек SSP0 вариант 2
+//РЎС‚Р°С‚РёС‡РµСЃРєРёР№ РјРµС‚РѕРґ РєРѕРЅС„РёРіСѓСЂРёСЂРѕРІР°РЅРёСЏ РЅРѕР¶РµРє SSP0 РІР°СЂРёР°РЅС‚ 2
 //SCK0  - P1.20
 //MISO0 - P1.23
 //MOSI0 - P1.24
@@ -104,7 +104,7 @@ void ssp_light::pinSetupSSP0_1(unsigned char setDefault)
     LPC_PINCON->PINSEL3 |= ((3 << 8) | (3 << 14) | (3 << 16));
 }
 
-//Статический метод конфигурирования ножек SSP1 вариант 1
+//РЎС‚Р°С‚РёС‡РµСЃРєРёР№ РјРµС‚РѕРґ РєРѕРЅС„РёРіСѓСЂРёСЂРѕРІР°РЅРёСЏ РЅРѕР¶РµРє SSP1 РІР°СЂРёР°РЅС‚ 1
 //SCK1  - P0.7
 //MISO1 - P0.8
 //MOSI1 - P0.9
@@ -116,7 +116,7 @@ void ssp_light::pinSetupSSP1_0(unsigned char setDefault)
     LPC_PINCON->PINSEL0 |= ((2 << 14) | (2 << 16) | (2 << 18));
 }
 
-//Статический метод конфигурирования ножек SSP1 вариант 2
+//РЎС‚Р°С‚РёС‡РµСЃРєРёР№ РјРµС‚РѕРґ РєРѕРЅС„РёРіСѓСЂРёСЂРѕРІР°РЅРёСЏ РЅРѕР¶РµРє SSP1 РІР°СЂРёР°РЅС‚ 2
 //SCK1  - P1.31
 //MISO1 - P0.8
 //MOSI1 - P0.9
@@ -132,14 +132,14 @@ void ssp_light::pinSetupSSP1_1(unsigned char setDefault)
   }
 }
 
-//Метод очитстки буферов
+//РњРµС‚РѕРґ РѕС‡РёС‚СЃС‚РєРё Р±СѓС„РµСЂРѕРІ
 int ssp_light::purge(unsigned char queue)
 {
   switch(queue)
   {
     case PURGE_RX:
 
-      while(this->low->SR & (1 << RNE))//Очистка аппаратного FIFO буфера SSP
+      while(this->low->SR & (1 << RNE))//РћС‡РёСЃС‚РєР° Р°РїРїР°СЂР°С‚РЅРѕРіРѕ FIFO Р±СѓС„РµСЂР° SSP
         if(this->low->DR);
     break;
 
@@ -168,8 +168,8 @@ int ssp_light::read(unsigned char* buf, int  bufsz)
 
   if(!bufsz)
     return ERR_OK;
-                                      /* блочная передача с использованием    * 
-                                       * аппаратного FIFO                     */
+                                      /* Р±Р»РѕС‡РЅР°СЏ РїРµСЂРµРґР°С‡Р° СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј    * 
+                                       * Р°РїРїР°СЂР°С‚РЅРѕРіРѕ FIFO                     */
   for(i = 0; i < (bufsz / 4); i++)
   {
     this->low->DR = 0;
@@ -208,7 +208,7 @@ int ssp_light::writeAsync(unsigned char* buf, int bufsz, callback2* ac)
 /*  */
 int ssp_light::writeTimed(unsigned char* buf, int* bufsz, int timeout)
 {
-                                      /* игнорируем таймаут                   */
+                                      /* РёРіРЅРѕСЂРёСЂСѓРµРј С‚Р°Р№РјР°СѓС‚                   */
   return this->write(buf, *bufsz);
 }
 
@@ -221,8 +221,8 @@ int ssp_light::write(unsigned char* buf, int  bufsz)
 
   if(!bufsz)
     return ERR_OK;
-                                      /* блочная передача с использованием    * 
-                                       * аппаратного FIFO                     */
+                                      /* Р±Р»РѕС‡РЅР°СЏ РїРµСЂРµРґР°С‡Р° СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј    * 
+                                       * Р°РїРїР°СЂР°С‚РЅРѕРіРѕ FIFO                     */
   for(i = 0; i < (bufsz / 4); i++)
   {
     dwordvar = *((__packed unsigned long*)buf);/* read next 4 bytes           */
@@ -232,7 +232,7 @@ int ssp_light::write(unsigned char* buf, int  bufsz)
     this->low->DR = dwordvar >> 16;
     this->low->DR = dwordvar >> 24;
     while (this->low->SR & (1 << BSY));
-                                       /* фиктивное чтения, для очистки RXFIFO*/
+                                       /* С„РёРєС‚РёРІРЅРѕРµ С‡С‚РµРЅРёСЏ, РґР»СЏ РѕС‡РёСЃС‚РєРё RXFIFO*/
     dwordvar = this->low->DR;
     dwordvar = this->low->DR;
     dwordvar = this->low->DR;

@@ -50,21 +50,21 @@ public:
 private:
   #define RX_CHAR   0x01
   #define TX_EMPTY  0x02
-  unsigned char*    buf;              // Указатель на буфер для приема/передачи данных
-  int               count;            // Счетчик принимаемых/передаваемых данных
-  int               rx;               // Счетчик принимаемых данных
-  int               tx;               // Счетчик передаваемых данных
+  unsigned char*    buf;              // РЈРєР°Р·Р°С‚РµР»СЊ РЅР° Р±СѓС„РµСЂ РґР»СЏ РїСЂРёРµРјР°/РїРµСЂРµРґР°С‡Рё РґР°РЅРЅС‹С…
+  int               count;            // РЎС‡РµС‚С‡РёРє РїСЂРёРЅРёРјР°РµРјС‹С…/РїРµСЂРµРґР°РІР°РµРјС‹С… РґР°РЅРЅС‹С…
+  int               rx;               // РЎС‡РµС‚С‡РёРє РїСЂРёРЅРёРјР°РµРјС‹С… РґР°РЅРЅС‹С…
+  int               tx;               // РЎС‡РµС‚С‡РёРє РїРµСЂРµРґР°РІР°РµРјС‹С… РґР°РЅРЅС‹С…
   int               readed;
   int               writed;
-  unsigned char     isTx;             // Признак передачи данных
+  unsigned char     isTx;             // РџСЂРёР·РЅР°Рє РїРµСЂРµРґР°С‡Рё РґР°РЅРЅС‹С…
   callback2*        completer; 
-  unsigned char     irqNum;           // Номер прерывания
-  portSettings      ps;               // Настройки порта
-  LPC_SSP_TypeDef*  low;              // Указатель на регистры периферийного блока SSP
-  PIN_SETUP         pinSetupProc;     // Указатель на метод конфигурирования ножек SSP
-  CIRC_BUF64        inbuf;            // Внутренний программный буфер на чтение данных
-  TN_EVENT          evts;             // Флаг TN_EVENT
-  unsigned long     pwrMask;          // Битовая маска включения питания периферийного блока SSP
+  unsigned char     irqNum;           // РќРѕРјРµСЂ РїСЂРµСЂС‹РІР°РЅРёСЏ
+  portSettings      ps;               // РќР°СЃС‚СЂРѕР№РєРё РїРѕСЂС‚Р°
+  LPC_SSP_TypeDef*  low;              // РЈРєР°Р·Р°С‚РµР»СЊ РЅР° СЂРµРіРёСЃС‚СЂС‹ РїРµСЂРёС„РµСЂРёР№РЅРѕРіРѕ Р±Р»РѕРєР° SSP
+  PIN_SETUP         pinSetupProc;     // РЈРєР°Р·Р°С‚РµР»СЊ РЅР° РјРµС‚РѕРґ РєРѕРЅС„РёРіСѓСЂРёСЂРѕРІР°РЅРёСЏ РЅРѕР¶РµРє SSP
+  CIRC_BUF64        inbuf;            // Р’РЅСѓС‚СЂРµРЅРЅРёР№ РїСЂРѕРіСЂР°РјРјРЅС‹Р№ Р±СѓС„РµСЂ РЅР° С‡С‚РµРЅРёРµ РґР°РЅРЅС‹С…
+  TN_EVENT          evts;             // Р¤Р»Р°Рі TN_EVENT
+  unsigned long     pwrMask;          // Р‘РёС‚РѕРІР°СЏ РјР°СЃРєР° РІРєР»СЋС‡РµРЅРёСЏ РїРёС‚Р°РЅРёСЏ РїРµСЂРёС„РµСЂРёР№РЅРѕРіРѕ Р±Р»РѕРєР° SSP
 
   void onTimedComplete(int bytes, int err);
   static void irqh(ssp* _this);
@@ -79,7 +79,7 @@ public:
   ssp_safe(LPC_SSP_TypeDef* phy, sspCreationDisposition* cd);
   virtual ~ssp_safe();
 
-  /******************************* реализация serialPort ********************************/
+  /******************************* СЂРµР°Р»РёР·Р°С†РёСЏ serialPort ********************************/
   virtual int init      (const portSettings& ps);
   //virtual const portSettings& settings();
   virtual int read      (unsigned char* buf, int  bufsz);

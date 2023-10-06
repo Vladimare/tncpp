@@ -6,14 +6,14 @@
 #include "tn.h"
 #include "timer.hpp"
 
-//Маски для для использования с TN_EVENTS
+//РњР°СЃРєРё РґР»СЏ РґР»СЏ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ СЃ TN_EVENTS
 #define CHANNEL_1         0x01
 #define CHANNEL_2         0x02
 #define CHANNEL_3         0x04
 #define CHANNEL_4         0x08
 
 
-/* структуры данных */
+/* СЃС‚СЂСѓРєС‚СѓСЂС‹ РґР°РЅРЅС‹С… */
 class unitimer17xx
   : public timer
 {

@@ -7,7 +7,7 @@ typedef void (*CALLBACK0)(void);
 typedef void (*CALLBACK1)(void*);
 typedef void (*CALLBACK2)(void*, void*);
 
-/************************* указатель на обработчики прерываний **************************/
+/************************* СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РѕР±СЂР°Р±РѕС‚С‡РёРєРё РїСЂРµСЂС‹РІР°РЅРёР№ **************************/
 typedef void (*IRQ_HANDLER)(void*);
 typedef struct tagIRQ_DATA
 {
@@ -23,10 +23,10 @@ typedef struct tagSERVICE_DATA
 }SERVICE_DATA;
 
 
-/************************* указатель на функции настройки ножек *************************/
+/************************* СѓРєР°Р·Р°С‚РµР»СЊ РЅР° С„СѓРЅРєС†РёРё РЅР°СЃС‚СЂРѕР№РєРё РЅРѕР¶РµРє *************************/
 typedef void (*PIN_SETUP)(unsigned char setDefault);
 
-/*********************************** кольцевой буфер ************************************/
+/*********************************** РєРѕР»СЊС†РµРІРѕР№ Р±СѓС„РµСЂ ************************************/
 typedef struct tagCIRC_BUF16  {unsigned long wr_idx; unsigned long rd_idx; unsigned char data[  16];}CIRC_BUF16;
 typedef struct tagCIRC_BUF32  {unsigned long wr_idx; unsigned long rd_idx; unsigned char data[  32];}CIRC_BUF32;
 typedef struct tagCIRC_BUF64  {unsigned long wr_idx; unsigned long rd_idx; unsigned char data[  64];}CIRC_BUF64;
@@ -50,7 +50,7 @@ typedef struct tagCIRC_BUF4096{unsigned long wr_idx; unsigned long rd_idx; unsig
 #define CBUF_FULL(buf)      (CBUF_COUNT(buf) == (CBUF_SIZE(buf) - 1))
 
 
-/*************************** двунаправленный кольцевой список ***************************/
+/*************************** РґРІСѓРЅР°РїСЂР°РІР»РµРЅРЅС‹Р№ РєРѕР»СЊС†РµРІРѕР№ СЃРїРёСЃРѕРє ***************************/
 typedef struct tagCIRC_DLL
 {
   struct tagCIRC_DLL* next;
@@ -100,7 +100,7 @@ __inline unsigned char CDLL_SEARCH(CIRC_DLL* pcdll, CIRC_DLL* pentry)
   return 0x00;
 }
 
-/************************ данные для создания объектов драйверов ************************/
+/************************ РґР°РЅРЅС‹Рµ РґР»СЏ СЃРѕР·РґР°РЅРёСЏ РѕР±СЉРµРєС‚РѕРІ РґСЂР°Р№РІРµСЂРѕРІ ************************/
 struct basicCreationDisposition
 {
   unsigned char irqNumber;

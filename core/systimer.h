@@ -9,12 +9,12 @@
 
 typedef struct tagDeferredTask
 {
-  CDLL_QUEUE  task_queue;             /* очередь                                        */
-  CALLBACK1   task;                   /* задача                                         */
-  void*       param;                  /* параметр задачи                                */
-  unsigned long ticksTotal;           /* период вызова, в тиках таймера                 */
-  unsigned long ticksToRun;           /* оставшееся до старта количество тиков          */
-  unsigned char forever:1;            /* признак непрерывности вызова                   */
+  CDLL_QUEUE  task_queue;             /* РѕС‡РµСЂРµРґСЊ                                        */
+  CALLBACK1   task;                   /* Р·Р°РґР°С‡Р°                                         */
+  void*       param;                  /* РїР°СЂР°РјРµС‚СЂ Р·Р°РґР°С‡Рё                                */
+  unsigned long ticksTotal;           /* РїРµСЂРёРѕРґ РІС‹Р·РѕРІР°, РІ С‚РёРєР°С… С‚Р°Р№РјРµСЂР°                 */
+  unsigned long ticksToRun;           /* РѕСЃС‚Р°РІС€РµРµСЃСЏ РґРѕ СЃС‚Р°СЂС‚Р° РєРѕР»РёС‡РµСЃС‚РІРѕ С‚РёРєРѕРІ          */
+  unsigned char forever:1;            /* РїСЂРёР·РЅР°Рє РЅРµРїСЂРµСЂС‹РІРЅРѕСЃС‚Рё РІС‹Р·РѕРІР°                   */
 }deferred_task;
 
 #endif

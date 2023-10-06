@@ -3,53 +3,53 @@
 #include "errors.h"
 
 
-//массив битовых масок.
+//РјР°СЃСЃРёРІ Р±РёС‚РѕРІС‹С… РјР°СЃРѕРє.
 const unsigned int unitimer17xx::masks[4] = {CHANNEL_1, CHANNEL_2, CHANNEL_3, CHANNEL_4};
 
-//конструктор
+//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 unitimer17xx::unitimer17xx(LPC_TIM_TypeDef* phy, const timerCreationDisposition& creationDisposition)
 {
-  //инициализация полей.
+  //РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїРѕР»РµР№.
   this->irqNum = creationDisposition.irqNumber;
   this->low = phy;
   this->pconpMask = creationDisposition.pwrMask;
 
-  //Регистрация прерываний Timer.
+  //Р РµРіРёСЃС‚СЂР°С†РёСЏ РїСЂРµСЂС‹РІР°РЅРёР№ Timer.
   IRQ_DATA my_irq;
   my_irq.h = unitimer17xx::irqh;
   my_irq.instance = this;
   coreRegisterIRQ(irqNum, creationDisposition.irqPriority, &my_irq);
 
-  //Создание флага TN_EVENT
+  //РЎРѕР·РґР°РЅРёРµ С„Р»Р°РіР° TN_EVENT
   this->evts.id_event = 0;
   tn_event_create(&this->evts, TN_EVENT_ATTR_MULTI, 0);
 
-  //Включение питания периферийного блока Timer 0/1/2/3
+  //Р’РєР»СЋС‡РµРЅРёРµ РїРёС‚Р°РЅРёСЏ РїРµСЂРёС„РµСЂРёР№РЅРѕРіРѕ Р±Р»РѕРєР° Timer 0/1/2/3
   LPC_SC->PCONP |= this->pconpMask;
 
 }
 
 
-//деструктор
+//РґРµСЃС‚СЂСѓРєС‚РѕСЂ
 unitimer17xx::~unitimer17xx()
 {
-  coreUnregisterIRQ(irqNum);            //Разрегистрация прерывания
-  tn_event_delete(&this->evts);         //Удаление флага TN_EVENT
-  LPC_SC->PCONP &= ~(this->pconpMask);  //выключаем питание периферийного блока Timer 0/1/2/3.
+  coreUnregisterIRQ(irqNum);            //Р Р°Р·СЂРµРіРёСЃС‚СЂР°С†РёСЏ РїСЂРµСЂС‹РІР°РЅРёСЏ
+  tn_event_delete(&this->evts);         //РЈРґР°Р»РµРЅРёРµ С„Р»Р°РіР° TN_EVENT
+  LPC_SC->PCONP &= ~(this->pconpMask);  //РІС‹РєР»СЋС‡Р°РµРј РїРёС‚Р°РЅРёРµ РїРµСЂРёС„РµСЂРёР№РЅРѕРіРѕ Р±Р»РѕРєР° Timer 0/1/2/3.
 }
 
 
-//инициализация таймера
+//РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ С‚Р°Р№РјРµСЂР°
 int unitimer17xx::init(const timerSettings& ts)
 {
-  //инициализация полей класса
+  //РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїРѕР»РµР№ РєР»Р°СЃСЃР°
   this->ts = ts;
 
-  //инициализация таймера
-  this->low->PR = this->ts.prescalerValue;//значение предделителя
-  this->low->IR = 0xff;                   //сброс прерываний
+  //РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ С‚Р°Р№РјРµСЂР°
+  this->low->PR = this->ts.prescalerValue;//Р·РЅР°С‡РµРЅРёРµ РїСЂРµРґРґРµР»РёС‚РµР»СЏ
+  this->low->IR = 0xff;                   //СЃР±СЂРѕСЃ РїСЂРµСЂС‹РІР°РЅРёР№
 
-  //настройки по каналам
+  //РЅР°СЃС‚СЂРѕР№РєРё РїРѕ РєР°РЅР°Р»Р°Рј
   for(unsigned char i=0; i<4; i++)
   {
     this->channelInit(i, ts.channels[i]);
@@ -58,21 +58,21 @@ int unitimer17xx::init(const timerSettings& ts)
   return ERR_OK;
 }
 
-//Возвращает настройки таймера
+//Р’РѕР·РІСЂР°С‰Р°РµС‚ РЅР°СЃС‚СЂРѕР№РєРё С‚Р°Р№РјРµСЂР°
 timerSettings& unitimer17xx::settings()
 {
   return this->ts;
 }
 
-//Выставляет настройки одного канала.
+//Р’С‹СЃС‚Р°РІР»СЏРµС‚ РЅР°СЃС‚СЂРѕР№РєРё РѕРґРЅРѕРіРѕ РєР°РЅР°Р»Р°.
 int unitimer17xx::channelInit(unsigned char channel, const timerChannelSettings& cs)
 {
   unsigned int channelFlags = 0;
-  this->low->MCR &= ~(0x01 << (MR0I + (channel * 3)));//запрещаем прерывания по данному каналу
+  this->low->MCR &= ~(0x01 << (MR0I + (channel * 3)));//Р·Р°РїСЂРµС‰Р°РµРј РїСЂРµСЂС‹РІР°РЅРёСЏ РїРѕ РґР°РЅРЅРѕРјСѓ РєР°РЅР°Р»Сѓ
 
-  (&(this->low->MR0))[channel] = cs.matchValue;//выставляем значение в регистр совпадения
+  (&(this->low->MR0))[channel] = cs.matchValue;//РІС‹СЃС‚Р°РІР»СЏРµРј Р·РЅР°С‡РµРЅРёРµ РІ СЂРµРіРёСЃС‚СЂ СЃРѕРІРїР°РґРµРЅРёСЏ
 
-  //Заполняем флаговую переменную
+  //Р—Р°РїРѕР»РЅСЏРµРј С„Р»Р°РіРѕРІСѓСЋ РїРµСЂРµРјРµРЅРЅСѓСЋ
   if(cs.flags & RESET_ON_MATCH)
     channelFlags |= (0x01 << (MR0R + (channel * 3)));
   else
@@ -88,13 +88,13 @@ int unitimer17xx::channelInit(unsigned char channel, const timerChannelSettings&
   else
     channelFlags &= ~(0x01 << (MR0I + (channel * 3)));
 
-  //Выставляем флаги
+  //Р’С‹СЃС‚Р°РІР»СЏРµРј С„Р»Р°РіРё
   this->low->MCR |= channelFlags;
 
   return ERR_OK;
 }
 
-//Установка значения совпадения по каналу.
+//РЈСЃС‚Р°РЅРѕРІРєР° Р·РЅР°С‡РµРЅРёСЏ СЃРѕРІРїР°РґРµРЅРёСЏ РїРѕ РєР°РЅР°Р»Сѓ.
 int unitimer17xx::channelInit(unsigned char channel, unsigned long match)
 {
   (&(this->low->MR0))[channel] = match;
@@ -110,41 +110,41 @@ int unitimer17xx::channelInitAddTC(unsigned char channel, unsigned long match)
   return ERR_OK;
 }
 
-//Возвращает настройки канала.
+//Р’РѕР·РІСЂР°С‰Р°РµС‚ РЅР°СЃС‚СЂРѕР№РєРё РєР°РЅР°Р»Р°.
 timerChannelSettings& unitimer17xx::channelSettings(unsigned char channel)
 {
   return this->ts.channels[channel];
 }
 
-//Включить канал.
+//Р’РєР»СЋС‡РёС‚СЊ РєР°РЅР°Р».
 int unitimer17xx::channelEnable(unsigned char channel)
 {
   this->low->MCR |= (0x01 << (MR0I + (channel * 3)));
   return ERR_OK;
 }
 
-//Выключить канал
+//Р’С‹РєР»СЋС‡РёС‚СЊ РєР°РЅР°Р»
 int unitimer17xx::channelDisable(unsigned char channel)
 {
   this->low->MCR &= ~(0x01 << (MR0I + (channel * 3)));
   return ERR_OK;
 }
 
-//Запустить таймер
+//Р—Р°РїСѓСЃС‚РёС‚СЊ С‚Р°Р№РјРµСЂ
 int unitimer17xx::start()
 {
   this->low->TCR |= (0x01ul << CNTR_ENABLE);
   return ERR_OK;
 }
 
-//Остановить таймер. Значения счетных регистров не меняются.
+//РћСЃС‚Р°РЅРѕРІРёС‚СЊ С‚Р°Р№РјРµСЂ. Р—РЅР°С‡РµРЅРёСЏ СЃС‡РµС‚РЅС‹С… СЂРµРіРёСЃС‚СЂРѕРІ РЅРµ РјРµРЅСЏСЋС‚СЃСЏ.
 int unitimer17xx::stop()
 {
   this->low->TCR &= ~(0x01 << CNTR_ENABLE);
   return ERR_OK;
 }
 
-//Сбросить значения счетных регистров.
+//РЎР±СЂРѕСЃРёС‚СЊ Р·РЅР°С‡РµРЅРёСЏ СЃС‡РµС‚РЅС‹С… СЂРµРіРёСЃС‚СЂРѕРІ.
 int unitimer17xx::reset()
 {
   this->low->TCR |= (0x01 << CNTR_RESET);
@@ -152,7 +152,7 @@ int unitimer17xx::reset()
   return ERR_OK;
 }
 
-//Остановка таймера, сброс счетных регисров, и запуск.
+//РћСЃС‚Р°РЅРѕРІРєР° С‚Р°Р№РјРµСЂР°, СЃР±СЂРѕСЃ СЃС‡РµС‚РЅС‹С… СЂРµРіРёСЃСЂРѕРІ, Рё Р·Р°РїСѓСЃРє.
 int unitimer17xx::restart()
 {
   this->low->TCR = (0x01 << CNTR_ENABLE) | (0x01ul << CNTR_RESET);
@@ -160,49 +160,49 @@ int unitimer17xx::restart()
   return ERR_OK;
 }
 
-//Возвращает значение счетного регистра.
+//Р’РѕР·РІСЂР°С‰Р°РµС‚ Р·РЅР°С‡РµРЅРёРµ СЃС‡РµС‚РЅРѕРіРѕ СЂРµРіРёСЃС‚СЂР°.
 unsigned long unitimer17xx::tickCount()
 {
   return this->low->TC;
 }
 
-//Возращает зн-ие счетного регисра предделителя
+//Р’РѕР·СЂР°С‰Р°РµС‚ Р·РЅ-РёРµ СЃС‡РµС‚РЅРѕРіРѕ СЂРµРіРёСЃСЂР° РїСЂРµРґРґРµР»РёС‚РµР»СЏ
 unsigned long unitimer17xx::prescalerCount()
 {
   return this->low->PC;
 }
 
-//Возвращает текущее значение частоты таймера
+//Р’РѕР·РІСЂР°С‰Р°РµС‚ С‚РµРєСѓС‰РµРµ Р·РЅР°С‡РµРЅРёРµ С‡Р°СЃС‚РѕС‚С‹ С‚Р°Р№РјРµСЂР°
 unsigned long unitimer17xx::timerFreq()
 {
   return this->ts.pclk;
 }
 
-//Блокирует выполнение вызвавшего потока на указанное время таймаута.
+//Р‘Р»РѕРєРёСЂСѓРµС‚ РІС‹РїРѕР»РЅРµРЅРёРµ РІС‹Р·РІР°РІС€РµРіРѕ РїРѕС‚РѕРєР° РЅР° СѓРєР°Р·Р°РЅРЅРѕРµ РІСЂРµРјСЏ С‚Р°Р№РјР°СѓС‚Р°.
 int unitimer17xx::channelWait(unsigned char channel, unsigned long timeout)
 {
   unsigned int flagsReg;
 
-  this->low->MCR &= ~(0x01 << (MR0I + (channel * 3)));//запрещаем прерывания по каналу
+  this->low->MCR &= ~(0x01 << (MR0I + (channel * 3)));//Р·Р°РїСЂРµС‰Р°РµРј РїСЂРµСЂС‹РІР°РЅРёСЏ РїРѕ РєР°РЅР°Р»Сѓ
 
   if(timeout < 4)
     return ERR_PARAM;
 
   __disable_irq();
-  (&(this->low->MR0))[channel] = this->low->TC + timeout; //выставляем необходимую задержку
+  (&(this->low->MR0))[channel] = this->low->TC + timeout; //РІС‹СЃС‚Р°РІР»СЏРµРј РЅРµРѕР±С…РѕРґРёРјСѓСЋ Р·Р°РґРµСЂР¶РєСѓ
   __enable_irq();
 
-  tn_event_clear(&this->evts, ~(masks[channel])); //очищаем флаг.
-  this->low->MCR |= (0x01 << (MR0I + (channel * 3))); //разрешаем прерывание по каналу
-  tn_event_wait(&this->evts, masks[channel], TN_EVENT_WCOND_AND, &flagsReg, TN_WAIT_INFINITE);//засыпаем
+  tn_event_clear(&this->evts, ~(masks[channel])); //РѕС‡РёС‰Р°РµРј С„Р»Р°Рі.
+  this->low->MCR |= (0x01 << (MR0I + (channel * 3))); //СЂР°Р·СЂРµС€Р°РµРј РїСЂРµСЂС‹РІР°РЅРёРµ РїРѕ РєР°РЅР°Р»Сѓ
+  tn_event_wait(&this->evts, masks[channel], TN_EVENT_WCOND_AND, &flagsReg, TN_WAIT_INFINITE);//Р·Р°СЃС‹РїР°РµРј
 
-  //Сбрасываем флаги канала
+  //РЎР±СЂР°СЃС‹РІР°РµРј С„Р»Р°РіРё РєР°РЅР°Р»Р°
   this->low->MCR &= ~((0x01 << (MR0I + (channel * 3))) | (0x01 << (MR0R + (channel * 3))) | (0x01 << (MR0S + (channel * 3))));
 
   return ERR_OK;
 }
 
-//Сажает на канал обработчик его срабатываний.
+//РЎР°Р¶Р°РµС‚ РЅР° РєР°РЅР°Р» РѕР±СЂР°Р±РѕС‚С‡РёРє РµРіРѕ СЃСЂР°Р±Р°С‚С‹РІР°РЅРёР№.
 int unitimer17xx::channelBind(unsigned char channel, callback1* cb)
 {
   this->asyncCB[channel] = cb;
@@ -210,7 +210,7 @@ int unitimer17xx::channelBind(unsigned char channel, callback1* cb)
   return ERR_OK;
 }
 
-//Обработчик прерываний.
+//РћР±СЂР°Р±РѕС‚С‡РёРє РїСЂРµСЂС‹РІР°РЅРёР№.
 void unitimer17xx::irqh(void* _this)
 {
   unitimer17xx* timer = (unitimer17xx*)_this;

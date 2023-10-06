@@ -3,7 +3,7 @@
 
 #include "usb_cdc.hpp"
 
-/* драйвер usb_cdc для 560 платы */
+/* РґСЂР°Р№РІРµСЂ usb_cdc РґР»СЏ 560 РїР»Р°С‚С‹ */
 class usb_cdc_560
   : public usb_cdc
 {
@@ -12,11 +12,11 @@ public:
   virtual ~usb_cdc_560();
 
 private:
-                                      /* инициализация указателей на          *
-                                       * дескрипторы                          */
+                                      /* РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ СѓРєР°Р·Р°С‚РµР»РµР№ РЅР°          *
+                                       * РґРµСЃРєСЂРёРїС‚РѕСЂС‹                          */
   void initDescriptors();
-                                      /* дескрипторы USB специфичные для 587  */
-                                      /* платы                                */
+                                      /* РґРµСЃРєСЂРёРїС‚РѕСЂС‹ USB СЃРїРµС†РёС„РёС‡РЅС‹Рµ РґР»СЏ 587  */
+                                      /* РїР»Р°С‚С‹                                */
   static const unsigned char deviceDescriptor[];
   static const unsigned char configurationDescriptor[];
   static const unsigned char stringDescriptor[];

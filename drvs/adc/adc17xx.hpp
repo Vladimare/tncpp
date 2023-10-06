@@ -15,38 +15,38 @@
 
 #include <stdio.h>
 
-                                      /* данные измерительного канала         */
+                                      /* РґР°РЅРЅС‹Рµ РёР·РјРµСЂРёС‚РµР»СЊРЅРѕРіРѕ РєР°РЅР°Р»Р°         */
 struct adcChannelData
 {
-  unsigned char   chanNum;            /* номер канала                         */
-  unsigned long   periodCounter;      /* количество пропущенных периодов      */
-  unsigned short  value;              /* последнее измеренное значение        */
-  unsigned short  getCounter;         /* индикатор пропусков                  */
+  unsigned char   chanNum;            /* РЅРѕРјРµСЂ РєР°РЅР°Р»Р°                         */
+  unsigned long   periodCounter;      /* РєРѕР»РёС‡РµСЃС‚РІРѕ РїСЂРѕРїСѓС‰РµРЅРЅС‹С… РїРµСЂРёРѕРґРѕРІ      */
+  unsigned short  value;              /* РїРѕСЃР»РµРґРЅРµРµ РёР·РјРµСЂРµРЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ        */
+  unsigned short  getCounter;         /* РёРЅРґРёРєР°С‚РѕСЂ РїСЂРѕРїСѓСЃРєРѕРІ                  */
 };
 
-                                      /* настройки измерительного канала      */
+                                      /* РЅР°СЃС‚СЂРѕР№РєРё РёР·РјРµСЂРёС‚РµР»СЊРЅРѕРіРѕ РєР°РЅР°Р»Р°      */
 struct adcChannelSettings
 {
-  unsigned long period;               /* кратность опроса канала              */
-  callback1* dataReceiver;            /* обработчик данных                    */
+  unsigned long period;               /* РєСЂР°С‚РЅРѕСЃС‚СЊ РѕРїСЂРѕСЃР° РєР°РЅР°Р»Р°              */
+  callback1* dataReceiver;            /* РѕР±СЂР°Р±РѕС‚С‡РёРє РґР°РЅРЅС‹С…                    */
 };
 
 
-                                      /* настройки АЦП                        */
+                                      /* РЅР°СЃС‚СЂРѕР№РєРё РђР¦Рџ                        */
 struct adcSettings
 {
-  unsigned long adcTick;              /* длительность измерительного цикла мкС*/
-  unsigned long adcPclk;              /* тактовая частота поступающая на АЦП  */
+  unsigned long adcTick;              /* РґР»РёС‚РµР»СЊРЅРѕСЃС‚СЊ РёР·РјРµСЂРёС‚РµР»СЊРЅРѕРіРѕ С†РёРєР»Р° РјРєРЎ*/
+  unsigned long adcPclk;              /* С‚Р°РєС‚РѕРІР°СЏ С‡Р°СЃС‚РѕС‚Р° РїРѕСЃС‚СѓРїР°СЋС‰Р°СЏ РЅР° РђР¦Рџ  */
 
   unitimer17xx*     adcTimer;
 
-  unsigned long timerPclk;            /* тактовая частота поступающая на тайм */
+  unsigned long timerPclk;            /* С‚Р°РєС‚РѕРІР°СЏ С‡Р°СЃС‚РѕС‚Р° РїРѕСЃС‚СѓРїР°СЋС‰Р°СЏ РЅР° С‚Р°Р№Рј */
 
-  adcChannelSettings* chanSettings;   /* настройки измерительных каналов      */
-  unsigned char chanCount;            /* количество каналов                   */
+  adcChannelSettings* chanSettings;   /* РЅР°СЃС‚СЂРѕР№РєРё РёР·РјРµСЂРёС‚РµР»СЊРЅС‹С… РєР°РЅР°Р»РѕРІ      */
+  unsigned char chanCount;            /* РєРѕР»РёС‡РµСЃС‚РІРѕ РєР°РЅР°Р»РѕРІ                   */
 };
 
-/* класс реализующий опрос мультиплексурованных каналов АЦП*/
+/* РєР»Р°СЃСЃ СЂРµР°Р»РёР·СѓСЋС‰РёР№ РѕРїСЂРѕСЃ РјСѓР»СЊС‚РёРїР»РµРєСЃСѓСЂРѕРІР°РЅРЅС‹С… РєР°РЅР°Р»РѕРІ РђР¦Рџ*/
 class adc17xx
   : public thread
 {
@@ -69,15 +69,15 @@ private:
   LPC_ADC_TypeDef*  adclow;           /* CMSIS interface to low level ADC registers*/
   
 
-  unsigned char  measureChannel;      /* текущий измерительный канал          */
+  unsigned char  measureChannel;      /* С‚РµРєСѓС‰РёР№ РёР·РјРµСЂРёС‚РµР»СЊРЅС‹Р№ РєР°РЅР°Р»          */
   unsigned int   mr0Val;
 
   binder1<adc17xx> m0Binder;
   binder1<adc17xx> m1Binder;
 
-                                      /* обработчик прерывания АЦП            */
+                                      /* РѕР±СЂР°Р±РѕС‚С‡РёРє РїСЂРµСЂС‹РІР°РЅРёСЏ РђР¦Рџ            */
   static void adcCompleteHandler(void* instance);
-                                      /* обработчик прерывания таймера        */
+                                      /* РѕР±СЂР°Р±РѕС‚С‡РёРє РїСЂРµСЂС‹РІР°РЅРёСЏ С‚Р°Р№РјРµСЂР°        */
   void timerMatch0(int ch);
   void timerMatch1(int ch);
 

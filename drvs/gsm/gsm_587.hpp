@@ -15,9 +15,9 @@ public:
   gsm_587(rs232Port *port, unsigned long pclk);
   virtual ~gsm_587();
 
-  int  on (unsigned char simnum);     //Включение модуля
-  void off(void);                     //Отключение модуля
-  void sim(unsigned char num = SIM1); //Выбор используемой SIM карты
+  int  on (unsigned char simnum);     //Р’РєР»СЋС‡РµРЅРёРµ РјРѕРґСѓР»СЏ
+  void off(void);                     //РћС‚РєР»СЋС‡РµРЅРёРµ РјРѕРґСѓР»СЏ
+  void sim(unsigned char num = SIM1); //Р’С‹Р±РѕСЂ РёСЃРїРѕР»СЊР·СѓРµРјРѕР№ SIM РєР°СЂС‚С‹
 
 private:
   void pinSetup(bool setDefault = false);

@@ -1,5 +1,5 @@
 /*
-Copyright © 2009 Yuri Tiomkin
+Copyright Â© 2009 Yuri Tiomkin
 All rights reserved.
 
 Permission to use, copy, modify, and distribute this software in source

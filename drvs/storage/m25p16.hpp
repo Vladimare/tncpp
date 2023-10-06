@@ -4,18 +4,18 @@
 #include "extstorage.hpp"
 
 
-#define WIP     0x01                  /* бит WIP (write in progress) в регистре статуса */
+#define WIP     0x01                  /* Р±РёС‚ WIP (write in progress) РІ СЂРµРіРёСЃС‚СЂРµ СЃС‚Р°С‚СѓСЃР° */
 
 
 class m25p16
   : public extstorage
 {
 public:
-                                      /* геометрия                                      */
-  static const int TOTAL_SIZE = 2097152;/* размер микросхемы в байтах                   */
-  static const int PAGE_COUNT = 8192;   /* количество страниц                           */
-  static const int PAGE_SIZE  = 256;    /* размер страницы в байтах                     */
-  static const int SECTOR_SIZE= 65536;  /* размер сектора в байтах                      */
+                                      /* РіРµРѕРјРµС‚СЂРёСЏ                                      */
+  static const int TOTAL_SIZE = 2097152;/* СЂР°Р·РјРµСЂ РјРёРєСЂРѕСЃС…РµРјС‹ РІ Р±Р°Р№С‚Р°С…                   */
+  static const int PAGE_COUNT = 8192;   /* РєРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚СЂР°РЅРёС†                           */
+  static const int PAGE_SIZE  = 256;    /* СЂР°Р·РјРµСЂ СЃС‚СЂР°РЅРёС†С‹ РІ Р±Р°Р№С‚Р°С…                     */
+  static const int SECTOR_SIZE= 65536;  /* СЂР°Р·РјРµСЂ СЃРµРєС‚РѕСЂР° РІ Р±Р°Р№С‚Р°С…                      */
 
 
   m25p16(extstorageCreationDisposition* escd);

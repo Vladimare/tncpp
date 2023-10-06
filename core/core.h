@@ -10,46 +10,46 @@ extern "C"
 #include <stdint.h>
 #include <time.h>
 
-#define SYSTIMER_PERIOD   10ul        /* период срабатывания системного таймера, в мс     */
+#define SYSTIMER_PERIOD   10ul        /* РїРµСЂРёРѕРґ СЃСЂР°Р±Р°С‚С‹РІР°РЅРёСЏ СЃРёСЃС‚РµРјРЅРѕРіРѕ С‚Р°Р№РјРµСЂР°, РІ РјСЃ     */
 
 
-/* структура параметров для функции coreInit() */
+/* СЃС‚СЂСѓРєС‚СѓСЂР° РїР°СЂР°РјРµС‚СЂРѕРІ РґР»СЏ С„СѓРЅРєС†РёРё coreInit() */
 typedef __packed struct tagCORE_SETTINGS
 {
-  unsigned char source;               /* источник частоты                                 *
-                                       * для LPC13xx:                                     *
-                                       *   nCLKSRC_INTRC  (0) - внутренний RC-генератор   *
-                                       *   nCLKSRC_PLLIN  (1) - вход SYS PLL              *
-                                       *   nCLKSRC_WDT    (2) - сторожевой таймер         *
-                                       *   nCLKSRC_PLLOUT (3) - выход SYS PLL             *
-                                       * для LPC17xx:                                     *
-                                       *   nCLKSRC_INTRC  (0) - внутренний RC-генератор   *
-                                       *   nCLKSRC_MAINOSC(1) - внешний генератор на XTAL *
-                                       *   nCLKSRC_RTCOSC (2) - часовой генератор на RTCX */
-  unsigned char pll0;                 /* для LPC13xx:                                     *
-                                       *   не используется                                *
-                                       * для LPC17xx:                                     *
-                                       *   1 - запустить PLL0                             */
-  unsigned long pclksel0;             /* для LPC13xx:                                     *
-                                       *   не используется                                *
-                                       * для LPC17xx:                                     *
+  unsigned char source;               /* РёСЃС‚РѕС‡РЅРёРє С‡Р°СЃС‚РѕС‚С‹                                 *
+                                       * РґР»СЏ LPC13xx:                                     *
+                                       *   nCLKSRC_INTRC  (0) - РІРЅСѓС‚СЂРµРЅРЅРёР№ RC-РіРµРЅРµСЂР°С‚РѕСЂ   *
+                                       *   nCLKSRC_PLLIN  (1) - РІС…РѕРґ SYS PLL              *
+                                       *   nCLKSRC_WDT    (2) - СЃС‚РѕСЂРѕР¶РµРІРѕР№ С‚Р°Р№РјРµСЂ         *
+                                       *   nCLKSRC_PLLOUT (3) - РІС‹С…РѕРґ SYS PLL             *
+                                       * РґР»СЏ LPC17xx:                                     *
+                                       *   nCLKSRC_INTRC  (0) - РІРЅСѓС‚СЂРµРЅРЅРёР№ RC-РіРµРЅРµСЂР°С‚РѕСЂ   *
+                                       *   nCLKSRC_MAINOSC(1) - РІРЅРµС€РЅРёР№ РіРµРЅРµСЂР°С‚РѕСЂ РЅР° XTAL *
+                                       *   nCLKSRC_RTCOSC (2) - С‡Р°СЃРѕРІРѕР№ РіРµРЅРµСЂР°С‚РѕСЂ РЅР° RTCX */
+  unsigned char pll0;                 /* РґР»СЏ LPC13xx:                                     *
+                                       *   РЅРµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ                                *
+                                       * РґР»СЏ LPC17xx:                                     *
+                                       *   1 - Р·Р°РїСѓСЃС‚РёС‚СЊ PLL0                             */
+  unsigned long pclksel0;             /* РґР»СЏ LPC13xx:                                     *
+                                       *   РЅРµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ                                *
+                                       * РґР»СЏ LPC17xx:                                     *
                                        *   peripheral clock select 0                      */
-  unsigned long pclksel1;             /* для LPC13xx:                                     *
-                                       *   не используется                                *
-                                       * для LPC17xx:                                     *
+  unsigned long pclksel1;             /* РґР»СЏ LPC13xx:                                     *
+                                       *   РЅРµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ                                *
+                                       * РґР»СЏ LPC17xx:                                     *
                                        *   peripheral clock select 1                      */
-  unsigned long sourcefreq;           /* частота источника                                *
-                                       *   для nCLKSRC_INTRC всегда должна быть:          *
-                                       *   - 12МГц в LPC13xx                              *
-                                       *   -  4МГц в LPC17xx                              */
-  unsigned long corefreq;             /* желаемая частота ядра                            */
-  unsigned long pllm;                 /* значение множителя для PLL0                      *
-                                       *   поле используется, только если в поле pll0     *
-                                       *   указано включение PLL0                         */
-  unsigned long plln;                 /* значение делителя для PLL0                       *
-                                       *   поле используется, только если в поле pll0     *
-                                       *   указано включение PLL0                         */
-  unsigned long offset;               /* смещение для таблицы вектров прерываний          */
+  unsigned long sourcefreq;           /* С‡Р°СЃС‚РѕС‚Р° РёСЃС‚РѕС‡РЅРёРєР°                                *
+                                       *   РґР»СЏ nCLKSRC_INTRC РІСЃРµРіРґР° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ:          *
+                                       *   - 12РњР“С† РІ LPC13xx                              *
+                                       *   -  4РњР“С† РІ LPC17xx                              */
+  unsigned long corefreq;             /* Р¶РµР»Р°РµРјР°СЏ С‡Р°СЃС‚РѕС‚Р° СЏРґСЂР°                            */
+  unsigned long pllm;                 /* Р·РЅР°С‡РµРЅРёРµ РјРЅРѕР¶РёС‚РµР»СЏ РґР»СЏ PLL0                      *
+                                       *   РїРѕР»Рµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ, С‚РѕР»СЊРєРѕ РµСЃР»Рё РІ РїРѕР»Рµ pll0     *
+                                       *   СѓРєР°Р·Р°РЅРѕ РІРєР»СЋС‡РµРЅРёРµ PLL0                         */
+  unsigned long plln;                 /* Р·РЅР°С‡РµРЅРёРµ РґРµР»РёС‚РµР»СЏ РґР»СЏ PLL0                       *
+                                       *   РїРѕР»Рµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ, С‚РѕР»СЊРєРѕ РµСЃР»Рё РІ РїРѕР»Рµ pll0     *
+                                       *   СѓРєР°Р·Р°РЅРѕ РІРєР»СЋС‡РµРЅРёРµ PLL0                         */
+  unsigned long offset;               /* СЃРјРµС‰РµРЅРёРµ РґР»СЏ С‚Р°Р±Р»РёС†С‹ РІРµРєС‚СЂРѕРІ РїСЂРµСЂС‹РІР°РЅРёР№          */
 }CORE_SETTINGS;
 
 extern void           coreInit            (const CORE_SETTINGS* freq);

@@ -4,16 +4,16 @@
 #include "adc17xx.hpp"
 #include "mutex.hpp"
 
-//Константы
-#define ADC_VREF          3300 //Опорное напряжение в мВ           
-#define ADC_WIDTH         12   //Разрядность АЦП
-#define ADC_VIN_FACTOR    12444//Множитель для расчета напряжения бортовой сети
-#define ADC_VACC_FACTOR   3083 //Множитель для расчета напряжения аккумулятора
-#define ADC_IN2_FACTOR    133  //Множитель для расчета напряжения шлейфов
-#define ADC_IN2_CONST1    47   //Некая константа 1 для расчета напряжения шлейфа IN2
-#define ADC_IN2_CONST2    4342 //Некая константа 2 для расчета напряжения шлейфа IN2
+//РљРѕРЅСЃС‚Р°РЅС‚С‹
+#define ADC_VREF          3300 //РћРїРѕСЂРЅРѕРµ РЅР°РїСЂСЏР¶РµРЅРёРµ РІ РјР’           
+#define ADC_WIDTH         12   //Р Р°Р·СЂСЏРґРЅРѕСЃС‚СЊ РђР¦Рџ
+#define ADC_VIN_FACTOR    12444//РњРЅРѕР¶РёС‚РµР»СЊ РґР»СЏ СЂР°СЃС‡РµС‚Р° РЅР°РїСЂСЏР¶РµРЅРёСЏ Р±РѕСЂС‚РѕРІРѕР№ СЃРµС‚Рё
+#define ADC_VACC_FACTOR   3083 //РњРЅРѕР¶РёС‚РµР»СЊ РґР»СЏ СЂР°СЃС‡РµС‚Р° РЅР°РїСЂСЏР¶РµРЅРёСЏ Р°РєРєСѓРјСѓР»СЏС‚РѕСЂР°
+#define ADC_IN2_FACTOR    133  //РњРЅРѕР¶РёС‚РµР»СЊ РґР»СЏ СЂР°СЃС‡РµС‚Р° РЅР°РїСЂСЏР¶РµРЅРёСЏ С€Р»РµР№С„РѕРІ
+#define ADC_IN2_CONST1    47   //РќРµРєР°СЏ РєРѕРЅСЃС‚Р°РЅС‚Р° 1 РґР»СЏ СЂР°СЃС‡РµС‚Р° РЅР°РїСЂСЏР¶РµРЅРёСЏ С€Р»РµР№С„Р° IN2
+#define ADC_IN2_CONST2    4342 //РќРµРєР°СЏ РєРѕРЅСЃС‚Р°РЅС‚Р° 2 РґР»СЏ СЂР°СЃС‡РµС‚Р° РЅР°РїСЂСЏР¶РµРЅРёСЏ С€Р»РµР№С„Р° IN2
 
-//Нумерация каналов
+//РќСѓРјРµСЂР°С†РёСЏ РєР°РЅР°Р»РѕРІ
 #define ADC_CH_IN1        0x00
 #define ADC_CH_IN2        0x01
 #define ADC_CH_IN3        0x02
@@ -24,7 +24,7 @@
 #define ADC_CH_VACC       0x07
 
 
-//Типы подключения шлейфов
+//РўРёРїС‹ РїРѕРґРєР»СЋС‡РµРЅРёСЏ С€Р»РµР№С„РѕРІ
 #define LCON_TYPE1        0x00
 #define LCON_TYPE2        0x01
 #define LCON_TYPE3        0x02
@@ -32,7 +32,7 @@
 #define LCON_TYPE5        0x04
 #define LCON_TYPE6        0x05
 
-//Состояния шлейфов
+//РЎРѕСЃС‚РѕСЏРЅРёСЏ С€Р»РµР№С„РѕРІ
 #define LSTATE_NORM                 0x00
 #define LSTATE_OPEN_CIRCUIT         0x01
 #define LSTATE_ALARM                0x03
@@ -94,7 +94,7 @@ protected:
   virtual int prepare(unsigned char channel, unsigned char* ADx, unsigned int* delay);
   virtual int finalize(unsigned char channel, unsigned int* delay);
 
-  /* обработчики измерений каналов АЦП */
+  /* РѕР±СЂР°Р±РѕС‚С‡РёРєРё РёР·РјРµСЂРµРЅРёР№ РєР°РЅР°Р»РѕРІ РђР¦Рџ */
   void ch(int data);
 
 private:

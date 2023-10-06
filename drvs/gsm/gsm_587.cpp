@@ -39,7 +39,7 @@ void gsm_587::pinSetup(bool setDefault)
 
 void gsm_587::off(void)
 {
-  LPC_GPIO1->FIOCLR  = 0x01ul << P1_23; //Îòêëþ÷åíèå ïèòàíèÿ
+  LPC_GPIO1->FIOCLR  = 0x01ul << P1_23; //ÐžÑ‚ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ðµ Ð¿Ð¸Ñ‚Ð°Ð½Ð¸Ñ
 
   g_writelog(LOG_LEVEL_INFO, "gsm: module off\r\n");
 }
@@ -52,9 +52,9 @@ int gsm_587::on(unsigned char simnum)
   if(!this->port)
     return ERR_DEVICE_NOINIT;
 
-  LPC_GPIO1->FIOSET  = 0x01ul << P1_23; // Âêëþ÷åíèå ïèòàíèÿ
+  LPC_GPIO1->FIOSET  = 0x01ul << P1_23; // Ð’ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ðµ Ð¿Ð¸Ñ‚Ð°Ð½Ð¸Ñ
   this->sleep(50);
-  LPC_GPIO4->FIOSET  = 0x01ul << P4_29; // Âêëþ÷åíèå çàæèãàíèÿ
+  LPC_GPIO4->FIOSET  = 0x01ul << P4_29; // Ð’ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ðµ Ð·Ð°Ð¶Ð¸Ð³Ð°Ð½Ð¸Ñ
   this->sleep(50);
   LPC_GPIO4->FIOCLR  = 0x01ul << P4_29;
 
@@ -65,8 +65,8 @@ int gsm_587::on(unsigned char simnum)
 
   while((systimerUptime(0) - ms) < GSM_STARTUP_TIMEOUT)
   {
-    this->port->getRS232(&pin);       // Ñ÷èòûâàíèå ñîñòîÿíèÿ íîã ïîñëåäîâàòåëüíîãî ïîðòà
-    if(pin & CTS)                     // Ìîäåì ãîòîâ îáìåíó äàííûìè
+    this->port->getRS232(&pin);       // Ð¡Ñ‡Ð¸Ñ‚Ñ‹Ð²Ð°Ð½Ð¸Ðµ ÑÐ¾ÑÑ‚Ð¾ÑÐ½Ð¸Ñ Ð½Ð¾Ð³ Ð¿Ð¾ÑÐ»ÐµÐ´Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ð³Ð¾ Ð¿Ð¾Ñ€Ñ‚Ð°
+    if(pin & CTS)                     // ÐœÐ¾Ð´ÐµÐ¼ Ð³Ð¾Ñ‚Ð¾Ð² Ð¾Ð±Ð¼ÐµÐ½Ñƒ Ð´Ð°Ð½Ð½Ñ‹Ð¼Ð¸
     {
       this->activate();
 

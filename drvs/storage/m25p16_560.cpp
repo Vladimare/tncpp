@@ -5,9 +5,9 @@
 m25p16_560::m25p16_560(extstorageCreationDisposition* escd)
   : m25p16(escd)
 {
-  LPC_PINCON->PINSEL0 &= ~((0x03ul << (P0_4 * 2)) | /* íîãà P0.4  - ñèãíàë WRITE PROTECT ìèêðîñõåìû*/
-                           (0x03ul << (P0_6 * 2))); /* íîãà P0.6  - ñèãíàë CHIP SELECT ìèêðîñõåìû  */
-  LPC_PINCON->PINSEL0 |=  P0_4_GPIO | P0_6_GPIO;    /* íîãà P4.28 - ñèãíàë HOLD ìèêðîñõåìû         */
+  LPC_PINCON->PINSEL0 &= ~((0x03ul << (P0_4 * 2)) | /* Ð½Ð¾Ð³Ð° P0.4  - ÑÐ¸Ð³Ð½Ð°Ð» WRITE PROTECT Ð¼Ð¸ÐºÑ€Ð¾ÑÑ…ÐµÐ¼Ñ‹*/
+                           (0x03ul << (P0_6 * 2))); /* Ð½Ð¾Ð³Ð° P0.6  - ÑÐ¸Ð³Ð½Ð°Ð» CHIP SELECT Ð¼Ð¸ÐºÑ€Ð¾ÑÑ…ÐµÐ¼Ñ‹  */
+  LPC_PINCON->PINSEL0 |=  P0_4_GPIO | P0_6_GPIO;    /* Ð½Ð¾Ð³Ð° P4.28 - ÑÐ¸Ð³Ð½Ð°Ð» HOLD Ð¼Ð¸ÐºÑ€Ð¾ÑÑ…ÐµÐ¼Ñ‹         */
 
   LPC_PINCON->PINSEL9 &= ~(0x03ul << ((P4_28 - 16) * 2));
   LPC_PINCON->PINSEL9 |=  P4_28_GPIO;

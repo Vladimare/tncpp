@@ -9,23 +9,23 @@
 struct rtcCreationDisposition
   : public basicCreationDisposition
 {
-  unsigned long pclk;                 /* тактовая частота, подаваемая на аппаратный     */
-                                      /*   таймер часов                                 */
-  unsigned long valid_timeout;        /* таймаут валидности, сек                        */
+  unsigned long pclk;                 /* С‚Р°РєС‚РѕРІР°СЏ С‡Р°СЃС‚РѕС‚Р°, РїРѕРґР°РІР°РµРјР°СЏ РЅР° Р°РїРїР°СЂР°С‚РЅС‹Р№     */
+                                      /*   С‚Р°Р№РјРµСЂ С‡Р°СЃРѕРІ                                 */
+  unsigned long valid_timeout;        /* С‚Р°Р№РјР°СѓС‚ РІР°Р»РёРґРЅРѕСЃС‚Рё, СЃРµРє                        */
 };
 
 
 class rtc17xx
 {
 public:
-                                      /* UTC-время по умолчанию: 00:00:00 01.10.2010    */
+                                      /* UTC-РІСЂРµРјСЏ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ: 00:00:00 01.10.2010    */
   static const unsigned long RTC_UTC_START = 0x4CA52480;
 
 
   rtc17xx(LPC_TIM_TypeDef* phy, rtcCreationDisposition* rcd);
   ~rtc17xx();
 
-  int syncPhase();                    /* сигнал синхронизации фазы таймера RTC          */
+  int syncPhase();                    /* СЃРёРіРЅР°Р» СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёРё С„Р°Р·С‹ С‚Р°Р№РјРµСЂР° RTC          */
   int setRTC  (unsigned long  utc);
   int getRTC  (unsigned long* utc, unsigned long* msec);
   int setValid(bool valid = true);
@@ -34,46 +34,46 @@ public:
   static rtc17xx* g_rtc;
 
 private:
-  struct svc_data                     /* данные RTC-сервиса                             */
+  struct svc_data                     /* РґР°РЅРЅС‹Рµ RTC-СЃРµСЂРІРёСЃР°                             */
   {
-#define RTCSVC_CALLID_SYNC        0   /* синхронизация фазы часов RTC                   */
-#define RTCSVC_CALLID_SYNC_SKIP   1   /* пропущен импульс синхронизации часов           */
-#define RTCSVC_CALLID_SECOND      2   /* сработал таймер секунды                        */
-#define RTCSVC_CALLID_SET         3   /* установка часов                                */
-#define RTCSVC_CALLID_GET         4   /* чтение часов                                   */
-#define RTCSVC_CALLID_VALIDUP     5   /* восстановление валидности синхроимпульсов      */
-#define RTCSVC_CALLID_VALIDDOWN   6   /* потеря валидности синхроимпульсов              */
-#define RTCSVC_CALLID_BINDALARM   7   /* установка будильника                           */
-#define RTCSVC_CALLID_RUNALARM    8   /* срабатывание будильника                        */
-    unsigned char callID;             /* идентификатор вызова                           */
-    unsigned long utc;                /* время utc, или указатель на него               */
-    unsigned long msec;               /* время ms, или указатель на него                */
-    void* data;                       /* указатель на данные, структура данных          */
-                                      /*   определяется запрашиваемым сервисом          */
+#define RTCSVC_CALLID_SYNC        0   /* СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёСЏ С„Р°Р·С‹ С‡Р°СЃРѕРІ RTC                   */
+#define RTCSVC_CALLID_SYNC_SKIP   1   /* РїСЂРѕРїСѓС‰РµРЅ РёРјРїСѓР»СЊСЃ СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёРё С‡Р°СЃРѕРІ           */
+#define RTCSVC_CALLID_SECOND      2   /* СЃСЂР°Р±РѕС‚Р°Р» С‚Р°Р№РјРµСЂ СЃРµРєСѓРЅРґС‹                        */
+#define RTCSVC_CALLID_SET         3   /* СѓСЃС‚Р°РЅРѕРІРєР° С‡Р°СЃРѕРІ                                */
+#define RTCSVC_CALLID_GET         4   /* С‡С‚РµРЅРёРµ С‡Р°СЃРѕРІ                                   */
+#define RTCSVC_CALLID_VALIDUP     5   /* РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёРµ РІР°Р»РёРґРЅРѕСЃС‚Рё СЃРёРЅС…СЂРѕРёРјРїСѓР»СЊСЃРѕРІ      */
+#define RTCSVC_CALLID_VALIDDOWN   6   /* РїРѕС‚РµСЂСЏ РІР°Р»РёРґРЅРѕСЃС‚Рё СЃРёРЅС…СЂРѕРёРјРїСѓР»СЊСЃРѕРІ              */
+#define RTCSVC_CALLID_BINDALARM   7   /* СѓСЃС‚Р°РЅРѕРІРєР° Р±СѓРґРёР»СЊРЅРёРєР°                           */
+#define RTCSVC_CALLID_RUNALARM    8   /* СЃСЂР°Р±Р°С‚С‹РІР°РЅРёРµ Р±СѓРґРёР»СЊРЅРёРєР°                        */
+    unsigned char callID;             /* РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РІС‹Р·РѕРІР°                           */
+    unsigned long utc;                /* РІСЂРµРјСЏ utc, РёР»Рё СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РЅРµРіРѕ               */
+    unsigned long msec;               /* РІСЂРµРјСЏ ms, РёР»Рё СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РЅРµРіРѕ                */
+    void* data;                       /* СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РґР°РЅРЅС‹Рµ, СЃС‚СЂСѓРєС‚СѓСЂР° РґР°РЅРЅС‹С…          */
+                                      /*   РѕРїСЂРµРґРµР»СЏРµС‚СЃСЏ Р·Р°РїСЂР°С€РёРІР°РµРјС‹Рј СЃРµСЂРІРёСЃРѕРј          */
   };
 
-                                      /* флаги часов                                    */
-#define RTCF_SYNC_PHASE   0x01        /* фаза синхронизирована                          */
-#define RTCF_SYNC_UTC     0x02        /* время UTC синхронизировано                     */
+                                      /* С„Р»Р°РіРё С‡Р°СЃРѕРІ                                    */
+#define RTCF_SYNC_PHASE   0x01        /* С„Р°Р·Р° СЃРёРЅС…СЂРѕРЅРёР·РёСЂРѕРІР°РЅР°                          */
+#define RTCF_SYNC_UTC     0x02        /* РІСЂРµРјСЏ UTC СЃРёРЅС…СЂРѕРЅРёР·РёСЂРѕРІР°РЅРѕ                     */
   unsigned long flags;
-  unsigned long prescaler_corrector;  /* коэффициент для коррекции предделителя         */
+  unsigned long prescaler_corrector;  /* РєРѕСЌС„С„РёС†РёРµРЅС‚ РґР»СЏ РєРѕСЂСЂРµРєС†РёРё РїСЂРµРґРґРµР»РёС‚РµР»СЏ         */
 
-  unsigned long utc;                  /* текущее значение времени с точностью до сек    */
-                                      /* значение мс хранится в счетном регистре        */
-                                      /*   аппаратного таймера                          */
-  unsigned long valid_top;            /* момент окончания валидности                    */
-  unsigned long valid_tout;           /* таймаут валидности                             */
+  unsigned long utc;                  /* С‚РµРєСѓС‰РµРµ Р·РЅР°С‡РµРЅРёРµ РІСЂРµРјРµРЅРё СЃ С‚РѕС‡РЅРѕСЃС‚СЊСЋ РґРѕ СЃРµРє    */
+                                      /* Р·РЅР°С‡РµРЅРёРµ РјСЃ С…СЂР°РЅРёС‚СЃСЏ РІ СЃС‡РµС‚РЅРѕРј СЂРµРіРёСЃС‚СЂРµ        */
+                                      /*   Р°РїРїР°СЂР°С‚РЅРѕРіРѕ С‚Р°Р№РјРµСЂР°                          */
+  unsigned long valid_top;            /* РјРѕРјРµРЅС‚ РѕРєРѕРЅС‡Р°РЅРёСЏ РІР°Р»РёРґРЅРѕСЃС‚Рё                    */
+  unsigned long valid_tout;           /* С‚Р°Р№РјР°СѓС‚ РІР°Р»РёРґРЅРѕСЃС‚Рё                             */
 
 
-  unsigned long alarmutc;             /* секунда срабатывания будильника                */
-  unsigned long alarmmsec;            /* миллисекунда срабатывания будильника           */
-  callback0* alarmer;                 /* обработчик будильника                          */
+  unsigned long alarmutc;             /* СЃРµРєСѓРЅРґР° СЃСЂР°Р±Р°С‚С‹РІР°РЅРёСЏ Р±СѓРґРёР»СЊРЅРёРєР°                */
+  unsigned long alarmmsec;            /* РјРёР»Р»РёСЃРµРєСѓРЅРґР° СЃСЂР°Р±Р°С‚С‹РІР°РЅРёСЏ Р±СѓРґРёР»СЊРЅРёРєР°           */
+  callback0* alarmer;                 /* РѕР±СЂР°Р±РѕС‚С‡РёРє Р±СѓРґРёР»СЊРЅРёРєР°                          */
 
-  LPC_TIM_TypeDef* low;               /* регистры таймера                               */
-  unsigned long pconpMask;            /* маска аппаратного таймера в регистре PCONP     */
-  unsigned long irqnum;               /* номер прерывания аппаратного таймера           */
+  LPC_TIM_TypeDef* low;               /* СЂРµРіРёСЃС‚СЂС‹ С‚Р°Р№РјРµСЂР°                               */
+  unsigned long pconpMask;            /* РјР°СЃРєР° Р°РїРїР°СЂР°С‚РЅРѕРіРѕ С‚Р°Р№РјРµСЂР° РІ СЂРµРіРёСЃС‚СЂРµ PCONP     */
+  unsigned long irqnum;               /* РЅРѕРјРµСЂ РїСЂРµСЂС‹РІР°РЅРёСЏ Р°РїРїР°СЂР°С‚РЅРѕРіРѕ С‚Р°Р№РјРµСЂР°           */
 
-                                      /* обработчик прерываний аппаратного таймера RTC  */
+                                      /* РѕР±СЂР°Р±РѕС‚С‡РёРє РїСЂРµСЂС‹РІР°РЅРёР№ Р°РїРїР°СЂР°С‚РЅРѕРіРѕ С‚Р°Р№РјРµСЂР° RTC  */
   static void rtch        (void* instance);
   static int  rtc_service (void* instance, void* d);
 

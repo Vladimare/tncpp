@@ -10,8 +10,8 @@ eventpack::eventpack(int inimask)
 
 eventpack::~eventpack()
 {
-  tn_event_delete(&this->evt);        /* все задачи, ожидающие событие, получат ошибку  */
-                                      /*   ожидания TERR_DLT                            */
+  tn_event_delete(&this->evt);        /* РІСЃРµ Р·Р°РґР°С‡Рё, РѕР¶РёРґР°СЋС‰РёРµ СЃРѕР±С‹С‚РёРµ, РїРѕР»СѓС‡Р°С‚ РѕС€РёР±РєСѓ  */
+                                      /*   РѕР¶РёРґР°РЅРёСЏ TERR_DLT                            */
 }
 
 int eventpack::set(int mask)

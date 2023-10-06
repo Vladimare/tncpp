@@ -15,7 +15,7 @@ public:
   gm3x0_560(timer* t, unsigned long pclk);
   virtual ~gm3x0_560();
 
-  /*************************** ðåàëèçàöèÿ èíòåðôåéñà radioset ***************************/
+  /*************************** Ñ€ÐµÐ°Ð»Ð¸Ð·Ð°Ñ†Ð¸Ñ Ð¸Ð½Ñ‚ÐµÑ€Ñ„ÐµÐ¹ÑÐ° radioset ***************************/
   virtual bool isTurnedOn() {return ((LPC_GPIO2->FIOPIN & (0x01ul << P2_3)) ? true : false);}
 
 protected:

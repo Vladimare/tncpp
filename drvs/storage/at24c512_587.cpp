@@ -7,7 +7,7 @@
 at24c512_587::at24c512_587(extstorageCreationDisposition* escd)
  : at24c512(escd)
 {
-  //********* P3.26 на выход "0" ************
+  //********* P3.26 РЅР° РІС‹С…РѕРґ "0" ************
   LPC_PINCON->PINSEL7 &= ~(3ul << ((P3_26 - 16) * 2));
   LPC_PINCON->PINMODE7 |= (2ul << ((P3_26 - 16) * 2));
   LPC_GPIO3->FIODIR |= (1ul << P3_26);

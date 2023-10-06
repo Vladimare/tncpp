@@ -7,8 +7,8 @@
 rtc17xx_587::rtc17xx_587(LPC_TIM_TypeDef* phy, rtcCreationDisposition* rcd)
   : rtc17xx(phy, rcd)
 {
-                                      /* íîæêà òàéìïóëüñà - âõîä áåç ïîäòÿæêè, è ñ      */
-                                      /*   ïðåðûâàíèåì ïî ñïàäàþùåìó ôðîíòó             */
+                                      /* Ð½Ð¾Ð¶ÐºÐ° Ñ‚Ð°Ð¹Ð¼Ð¿ÑƒÐ»ÑŒÑÐ° - Ð²Ñ…Ð¾Ð´ Ð±ÐµÐ· Ð¿Ð¾Ð´Ñ‚ÑÐ¶ÐºÐ¸, Ð¸ Ñ      */
+                                      /*   Ð¿Ñ€ÐµÑ€Ñ‹Ð²Ð°Ð½Ð¸ÐµÐ¼ Ð¿Ð¾ ÑÐ¿Ð°Ð´Ð°ÑŽÑ‰ÐµÐ¼Ñƒ Ñ„Ñ€Ð¾Ð½Ñ‚Ñƒ             */
   LPC_PINCON->PINSEL0 &= ~(0x03ul << (P0_5 * 2));
   LPC_PINCON->PINSEL0 |=  P0_5_GPIO;
   LPC_PINCON->PINMODE0&= ~(0x03ul << (P0_5 * 2));
@@ -22,7 +22,7 @@ rtc17xx_587::rtc17xx_587(LPC_TIM_TypeDef* phy, rtcCreationDisposition* rcd)
 
 #if 0
 #warning !
-                                      /* îòëàäî÷íàÿ íîãà BOOT_CPU                       */
+                                      /* Ð¾Ñ‚Ð»Ð°Ð´Ð¾Ñ‡Ð½Ð°Ñ Ð½Ð¾Ð³Ð° BOOT_CPU                       */
   LPC_PINCON->PINSEL4 &= ~(0x03ul << (P2_10 * 2));
   LPC_PINCON->PINSEL4 |=  P2_10_GPIO;
   LPC_GPIO2->FIODIR   |=  (1ul << P2_10);
@@ -32,10 +32,10 @@ rtc17xx_587::rtc17xx_587(LPC_TIM_TypeDef* phy, rtcCreationDisposition* rcd)
 
 void rtc17xx_587::timePulser(void* instance)
 {
-                                      /* ñáðàñûâàåì ïðåðûâàíèå òàéìïóëüñà               */
+                                      /* ÑÐ±Ñ€Ð°ÑÑ‹Ð²Ð°ÐµÐ¼ Ð¿Ñ€ÐµÑ€Ñ‹Ð²Ð°Ð½Ð¸Ðµ Ñ‚Ð°Ð¹Ð¼Ð¿ÑƒÐ»ÑŒÑÐ°               */
   LPC_GPIOINT->IO0IntClr = (0x01ul << P0_5);
 
-                                      /* îáíóëÿåì ìèëëèñåêóíäû                          */
+                                      /* Ð¾Ð±Ð½ÑƒÐ»ÑÐµÐ¼ Ð¼Ð¸Ð»Ð»Ð¸ÑÐµÐºÑƒÐ½Ð´Ñ‹                          */
   ((rtc17xx_587*)instance)->syncPhase();
 
   if(upb_vhfslave_587::g_vhf587)

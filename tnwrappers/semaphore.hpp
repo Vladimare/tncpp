@@ -4,7 +4,7 @@
 #include "tn.h"
 
 
-/* семафор, обертка к семафору TNKernel */
+/* СЃРµРјР°С„РѕСЂ, РѕР±РµСЂС‚РєР° Рє СЃРµРјР°С„РѕСЂСѓ TNKernel */
 class semaphore
 {
 public:

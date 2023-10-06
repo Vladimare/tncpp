@@ -3,16 +3,16 @@
 
 #include "extstorage.hpp"
 
-                                      /* обертка интерфейса для работы с флэш-памятью    */
+                                      /* РѕР±РµСЂС‚РєР° РёРЅС‚РµСЂС„РµР№СЃР° РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ С„Р»СЌС€-РїР°РјСЏС‚СЊСЋ    */
 
 //#define RWFLASH_DEBUG
 
 
-#define RWFLASH_PAGE_HEADER_SIZE 4       // размер заголовка страницы в flash памяти (в области для rwflash)
+#define RWFLASH_PAGE_HEADER_SIZE 4       // СЂР°Р·РјРµСЂ Р·Р°РіРѕР»РѕРІРєР° СЃС‚СЂР°РЅРёС†С‹ РІ flash РїР°РјСЏС‚Рё (РІ РѕР±Р»Р°СЃС‚Рё РґР»СЏ rwflash)
 
-#define RWFLASHF_BE   0x01               // маска - "блок (сектор) пуст": 1 - пуст; 0 - не пуст
-#define RWFLASHF_PE   0x02               // маска - "станица пуста": 1 - пуста; 0 - не пуста
-#define RWFLASHF_PA   0x04               // маска - "страница актуальна": 1 - актуальна; 0 - не актуальна
+#define RWFLASHF_BE   0x01               // РјР°СЃРєР° - "Р±Р»РѕРє (СЃРµРєС‚РѕСЂ) РїСѓСЃС‚": 1 - РїСѓСЃС‚; 0 - РЅРµ РїСѓСЃС‚
+#define RWFLASHF_PE   0x02               // РјР°СЃРєР° - "СЃС‚Р°РЅРёС†Р° РїСѓСЃС‚Р°": 1 - РїСѓСЃС‚Р°; 0 - РЅРµ РїСѓСЃС‚Р°
+#define RWFLASHF_PA   0x04               // РјР°СЃРєР° - "СЃС‚СЂР°РЅРёС†Р° Р°РєС‚СѓР°Р»СЊРЅР°": 1 - Р°РєС‚СѓР°Р»СЊРЅР°; 0 - РЅРµ Р°РєС‚СѓР°Р»СЊРЅР°
 
 
 class rwflash
@@ -34,39 +34,39 @@ public:
   virtual unsigned long JEDECId();
 
 
-  virtual int defragmentation();            // функция дефрагментации блока Flash памяти
+  virtual int defragmentation();            // С„СѓРЅРєС†РёСЏ РґРµС„СЂР°РіРјРµРЅС‚Р°С†РёРё Р±Р»РѕРєР° Flash РїР°РјСЏС‚Рё
 
   #ifdef RWFLASH_DEBUG
     void ShowFlashMemory(unsigned long addr, unsigned long size);
     void ShowEepromMemory(unsigned long addr, unsigned long size);
   #endif
 
-  unsigned long current_block_number;          // номер текущего записываемого блока
-  unsigned long current_empty_page_number;     // номер текущей пустой страницы
-  unsigned long accessible_page_count;         // число доступных страниц
-  unsigned long actual_page_count;             // число актуальных страниц
-  unsigned long notactual_page_count;          // число неактуальных страниц
+  unsigned long current_block_number;          // РЅРѕРјРµСЂ С‚РµРєСѓС‰РµРіРѕ Р·Р°РїРёСЃС‹РІР°РµРјРѕРіРѕ Р±Р»РѕРєР°
+  unsigned long current_empty_page_number;     // РЅРѕРјРµСЂ С‚РµРєСѓС‰РµР№ РїСѓСЃС‚РѕР№ СЃС‚СЂР°РЅРёС†С‹
+  unsigned long accessible_page_count;         // С‡РёСЃР»Рѕ РґРѕСЃС‚СѓРїРЅС‹С… СЃС‚СЂР°РЅРёС†
+  unsigned long actual_page_count;             // С‡РёСЃР»Рѕ Р°РєС‚СѓР°Р»СЊРЅС‹С… СЃС‚СЂР°РЅРёС†
+  unsigned long notactual_page_count;          // С‡РёСЃР»Рѕ РЅРµР°РєС‚СѓР°Р»СЊРЅС‹С… СЃС‚СЂР°РЅРёС†
 
 
 private:
-  STORAGEGEOM geom;                        // геометрия flash
+  STORAGEGEOM geom;                        // РіРµРѕРјРµС‚СЂРёСЏ flash
   ATOMGEOM    rwflash_geom;
 
 
-  unsigned char* flPageBuff;                // буфер в ОЗУ для хранения страницы Flash памяти
-  extstorage* es_fl;                        // указатель на flash
-  extstorage* es_ee;                        // указатель на eeprom
+  unsigned char* flPageBuff;                // Р±СѓС„РµСЂ РІ РћР—РЈ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ СЃС‚СЂР°РЅРёС†С‹ Flash РїР°РјСЏС‚Рё
+  extstorage* es_fl;                        // СѓРєР°Р·Р°С‚РµР»СЊ РЅР° flash
+  extstorage* es_ee;                        // СѓРєР°Р·Р°С‚РµР»СЊ РЅР° eeprom
 
-  // информация о структуре FLash
-  unsigned long  fl_block_size;           /* размер блока в байтах, для блока должна быть определена операция стирания */
-  unsigned short fl_block_count;          /* размер хранилища в блоках */
+  // РёРЅС„РѕСЂРјР°С†РёСЏ Рѕ СЃС‚СЂСѓРєС‚СѓСЂРµ FLash
+  unsigned long  fl_block_size;           /* СЂР°Р·РјРµСЂ Р±Р»РѕРєР° РІ Р±Р°Р№С‚Р°С…, РґР»СЏ Р±Р»РѕРєР° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РѕРїСЂРµРґРµР»РµРЅР° РѕРїРµСЂР°С†РёСЏ СЃС‚РёСЂР°РЅРёСЏ */
+  unsigned short fl_block_count;          /* СЂР°Р·РјРµСЂ С…СЂР°РЅРёР»РёС‰Р° РІ Р±Р»РѕРєР°С… */
 
 
-  unsigned long g_fl_size;                     // размер физической страницы flash памяти
+  unsigned long g_fl_size;                     // СЂР°Р·РјРµСЂ С„РёР·РёС‡РµСЃРєРѕР№ СЃС‚СЂР°РЅРёС†С‹ flash РїР°РјСЏС‚Рё
 
-  unsigned long RWFLASH_FLASH_START_ADDRESS;   // адрес во flash начала области rwflash
-  unsigned long RWFLASH_EEPROM_START_ADDRESS;  // адрес в eeprom начала области rwflash
-  unsigned long RWFLASH_EEPROM_SIZE;           // размер области rwflash в eeprom
+  unsigned long RWFLASH_FLASH_START_ADDRESS;   // Р°РґСЂРµСЃ РІРѕ flash РЅР°С‡Р°Р»Р° РѕР±Р»Р°СЃС‚Рё rwflash
+  unsigned long RWFLASH_EEPROM_START_ADDRESS;  // Р°РґСЂРµСЃ РІ eeprom РЅР°С‡Р°Р»Р° РѕР±Р»Р°СЃС‚Рё rwflash
+  unsigned long RWFLASH_EEPROM_SIZE;           // СЂР°Р·РјРµСЂ РѕР±Р»Р°СЃС‚Рё rwflash РІ eeprom
 
 };
 

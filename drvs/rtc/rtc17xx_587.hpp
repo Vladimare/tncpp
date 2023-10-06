@@ -11,7 +11,7 @@ public:
   rtc17xx_587(LPC_TIM_TypeDef* phy, rtcCreationDisposition* rcd);
 
 private:
-                                      /* обработчик прерываний таймпульса               */
+                                      /* РѕР±СЂР°Р±РѕС‚С‡РёРє РїСЂРµСЂС‹РІР°РЅРёР№ С‚Р°Р№РјРїСѓР»СЊСЃР°               */
   static void timePulser(void* instance);
 };
 

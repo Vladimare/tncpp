@@ -8,7 +8,7 @@
 #include "event.hpp"
 #include "systimer.h"
 
-//Комманды
+//РљРѕРјРјР°РЅРґС‹
 #define GSM_AT          "AT"
 #define GSM_ECHO        "E"
 #define GSM_DIAL        "D"
@@ -41,7 +41,7 @@
 
 #define GSM_DATA_SHUTDOWN   "MS OFF"
 
-//URC незапрашиваемые коды результата
+//URC РЅРµР·Р°РїСЂР°С€РёРІР°РµРјС‹Рµ РєРѕРґС‹ СЂРµР·СѓР»СЊС‚Р°С‚Р°
 #define GSM_URC_START       "^SYSSTART"
 #define GSM_URC_SHUTDOWN    "^SHUTDOWN"
 #define GSM_URC_RING        "RING"
@@ -58,7 +58,7 @@
 #define GSM_URC_ALERTING    "ALERTING"
 #define GSM_URC_DIALING     "DIALING"
 
-//Безопасность
+//Р‘РµР·РѕРїР°СЃРЅРѕСЃС‚СЊ
 #define GSM_SIM_PIN           "SIM PIN"
 #define GSM_SIM_PUK           "SIM PUK"
 #define GSM_SIM_PIN2          "SIM PIN2"
@@ -103,59 +103,59 @@
 #define GSM_CID_MAX_NUM       2
 
 
-#define GSM_CR        '\r' //Перевод коретки
-#define GSM_LF        '\n' //Новая строка
-#define GSM_STR_SEP   '#'  //Разделитель строк
-#define GSM_STR_FRAME '"'  //Обрамление строки
-#define GSM_PARAM_SEP ','  //Разделитель параметров
-#define GSM_SMS_INV   '>'  //Приглашение ввода текста отправляемой смс
+#define GSM_CR        '\r' //РџРµСЂРµРІРѕРґ РєРѕСЂРµС‚РєРё
+#define GSM_LF        '\n' //РќРѕРІР°СЏ СЃС‚СЂРѕРєР°
+#define GSM_STR_SEP   '#'  //Р Р°Р·РґРµР»РёС‚РµР»СЊ СЃС‚СЂРѕРє
+#define GSM_STR_FRAME '"'  //РћР±СЂР°РјР»РµРЅРёРµ СЃС‚СЂРѕРєРё
+#define GSM_PARAM_SEP ','  //Р Р°Р·РґРµР»РёС‚РµР»СЊ РїР°СЂР°РјРµС‚СЂРѕРІ
+#define GSM_SMS_INV   '>'  //РџСЂРёРіР»Р°С€РµРЅРёРµ РІРІРѕРґР° С‚РµРєСЃС‚Р° РѕС‚РїСЂР°РІР»СЏРµРјРѕР№ СЃРјСЃ
 
-//Таймауты
-#define GSM_CMD_TIMEOUT       100 //Пауза между посылаемыми командами 100мс
-#define GSM_RX_CHAR_TIMEOUT   (100  / SYSTIMER_PERIOD)//Таймаут на прием символа 100мс
-#define GSM_RX_LINE_TIMEOUT   (1000 / SYSTIMER_PERIOD)//Таймаут на прием строки 1000мс
-#define GSM_RX_HANDLE_TIMEOUT (1000 / SYSTIMER_PERIOD)//Таймаут на обработку принятого ответа 1000мс
-#define GSM_TX_LINE_TIMEOUT   (1000 / SYSTIMER_PERIOD)//Таймаут на передачу 1000мс
-#define GSM_CONNECT_TIMEOUT   (10000 / SYSTIMER_PERIOD)//Таймаут на подключение
-#define GSM_RX_SZ        128 //Размер буфера на прием
-#define GSM_TX_SZ        64  //Размер буфера на передачу
+//РўР°Р№РјР°СѓС‚С‹
+#define GSM_CMD_TIMEOUT       100 //РџР°СѓР·Р° РјРµР¶РґСѓ РїРѕСЃС‹Р»Р°РµРјС‹РјРё РєРѕРјР°РЅРґР°РјРё 100РјСЃ
+#define GSM_RX_CHAR_TIMEOUT   (100  / SYSTIMER_PERIOD)//РўР°Р№РјР°СѓС‚ РЅР° РїСЂРёРµРј СЃРёРјРІРѕР»Р° 100РјСЃ
+#define GSM_RX_LINE_TIMEOUT   (1000 / SYSTIMER_PERIOD)//РўР°Р№РјР°СѓС‚ РЅР° РїСЂРёРµРј СЃС‚СЂРѕРєРё 1000РјСЃ
+#define GSM_RX_HANDLE_TIMEOUT (1000 / SYSTIMER_PERIOD)//РўР°Р№РјР°СѓС‚ РЅР° РѕР±СЂР°Р±РѕС‚РєСѓ РїСЂРёРЅСЏС‚РѕРіРѕ РѕС‚РІРµС‚Р° 1000РјСЃ
+#define GSM_TX_LINE_TIMEOUT   (1000 / SYSTIMER_PERIOD)//РўР°Р№РјР°СѓС‚ РЅР° РїРµСЂРµРґР°С‡Сѓ 1000РјСЃ
+#define GSM_CONNECT_TIMEOUT   (10000 / SYSTIMER_PERIOD)//РўР°Р№РјР°СѓС‚ РЅР° РїРѕРґРєР»СЋС‡РµРЅРёРµ
+#define GSM_RX_SZ        128 //Р Р°Р·РјРµСЂ Р±СѓС„РµСЂР° РЅР° РїСЂРёРµРј
+#define GSM_TX_SZ        64  //Р Р°Р·РјРµСЂ Р±СѓС„РµСЂР° РЅР° РїРµСЂРµРґР°С‡Сѓ
 
 #define GSM_SMS_FROM_SZ   16
 #define GSM_SMS_TIME_SZ   24
 
 
-//Абстрактный класс событий GSM
+//РђР±СЃС‚СЂР°РєС‚РЅС‹Р№ РєР»Р°СЃСЃ СЃРѕР±С‹С‚РёР№ GSM
 class gsm_events
 {
 public:
   gsm_events();
   virtual ~gsm_events();
-  virtual int OnSysStart() = 0;   //Произошел перезапуск модуля
-  virtual int OnShutDown() = 0;   //Происходит отключение модуля
-  virtual int OnRing() = 0;       //Входящий звонок
-  virtual int OnSMS(int num) = 0; //Новое смс
-  virtual int OnChangeNetState(int state) = 0; //Изменение состояния регистрации в сети
-  virtual int OnChangeSIMSlotState(int state) = 0; //Изменение состояния слота сим карты
+  virtual int OnSysStart() = 0;   //РџСЂРѕРёР·РѕС€РµР» РїРµСЂРµР·Р°РїСѓСЃРє РјРѕРґСѓР»СЏ
+  virtual int OnShutDown() = 0;   //РџСЂРѕРёСЃС…РѕРґРёС‚ РѕС‚РєР»СЋС‡РµРЅРёРµ РјРѕРґСѓР»СЏ
+  virtual int OnRing() = 0;       //Р’С…РѕРґСЏС‰РёР№ Р·РІРѕРЅРѕРє
+  virtual int OnSMS(int num) = 0; //РќРѕРІРѕРµ СЃРјСЃ
+  virtual int OnChangeNetState(int state) = 0; //РР·РјРµРЅРµРЅРёРµ СЃРѕСЃС‚РѕСЏРЅРёСЏ СЂРµРіРёСЃС‚СЂР°С†РёРё РІ СЃРµС‚Рё
+  virtual int OnChangeSIMSlotState(int state) = 0; //РР·РјРµРЅРµРЅРёРµ СЃРѕСЃС‚РѕСЏРЅРёСЏ СЃР»РѕС‚Р° СЃРёРј РєР°СЂС‚С‹
 };
 
-//Класс работы с GSM модулем
+//РљР»Р°СЃСЃ СЂР°Р±РѕС‚С‹ СЃ GSM РјРѕРґСѓР»РµРј
 class gsm
   : public thread
 {
 public:
   gsm(rs232Port *port, unsigned long pclk);
   virtual ~gsm();
-  bool  getATReady();//Получение признака готовности принимать AT комманды
-  void  setATReady(bool on = true);//Установка или сброс признака готовности принимать AT комманды
-  int bind_events(gsm_events* events);//Подвязка обработчиков событий
-  int at(); //Команда проверки связи с gsm модемом
-  int setBaudrate(unsigned int baudrate=BR_115200); //Установка скорости связи с gsm модемом
-  int enableSMSURC(); //Активация URC при приеме нового sms сообщения
-  int disableSMSURC(); //Деактивация URC при приеме нового sms сообщения
-  int enableRegURC(); //Активация URC при изменении состояния регистрации в сети
-  int disableRegURC(); //Деактивация URC при изменении состояния регистрации в сети
-  int enableSIMURC(); //Активация URC при изменении состояния слота SIM карты
-  int disableSIMURC(); //Деактивация URC при изменении состояния слота SIM карты
+  bool  getATReady();//РџРѕР»СѓС‡РµРЅРёРµ РїСЂРёР·РЅР°РєР° РіРѕС‚РѕРІРЅРѕСЃС‚Рё РїСЂРёРЅРёРјР°С‚СЊ AT РєРѕРјРјР°РЅРґС‹
+  void  setATReady(bool on = true);//РЈСЃС‚Р°РЅРѕРІРєР° РёР»Рё СЃР±СЂРѕСЃ РїСЂРёР·РЅР°РєР° РіРѕС‚РѕРІРЅРѕСЃС‚Рё РїСЂРёРЅРёРјР°С‚СЊ AT РєРѕРјРјР°РЅРґС‹
+  int bind_events(gsm_events* events);//РџРѕРґРІСЏР·РєР° РѕР±СЂР°Р±РѕС‚С‡РёРєРѕРІ СЃРѕР±С‹С‚РёР№
+  int at(); //РљРѕРјР°РЅРґР° РїСЂРѕРІРµСЂРєРё СЃРІСЏР·Рё СЃ gsm РјРѕРґРµРјРѕРј
+  int setBaudrate(unsigned int baudrate=BR_115200); //РЈСЃС‚Р°РЅРѕРІРєР° СЃРєРѕСЂРѕСЃС‚Рё СЃРІСЏР·Рё СЃ gsm РјРѕРґРµРјРѕРј
+  int enableSMSURC(); //РђРєС‚РёРІР°С†РёСЏ URC РїСЂРё РїСЂРёРµРјРµ РЅРѕРІРѕРіРѕ sms СЃРѕРѕР±С‰РµРЅРёСЏ
+  int disableSMSURC(); //Р”РµР°РєС‚РёРІР°С†РёСЏ URC РїСЂРё РїСЂРёРµРјРµ РЅРѕРІРѕРіРѕ sms СЃРѕРѕР±С‰РµРЅРёСЏ
+  int enableRegURC(); //РђРєС‚РёРІР°С†РёСЏ URC РїСЂРё РёР·РјРµРЅРµРЅРёРё СЃРѕСЃС‚РѕСЏРЅРёСЏ СЂРµРіРёСЃС‚СЂР°С†РёРё РІ СЃРµС‚Рё
+  int disableRegURC(); //Р”РµР°РєС‚РёРІР°С†РёСЏ URC РїСЂРё РёР·РјРµРЅРµРЅРёРё СЃРѕСЃС‚РѕСЏРЅРёСЏ СЂРµРіРёСЃС‚СЂР°С†РёРё РІ СЃРµС‚Рё
+  int enableSIMURC(); //РђРєС‚РёРІР°С†РёСЏ URC РїСЂРё РёР·РјРµРЅРµРЅРёРё СЃРѕСЃС‚РѕСЏРЅРёСЏ СЃР»РѕС‚Р° SIM РєР°СЂС‚С‹
+  int disableSIMURC(); //Р”РµР°РєС‚РёРІР°С†РёСЏ URC РїСЂРё РёР·РјРµРЅРµРЅРёРё СЃРѕСЃС‚РѕСЏРЅРёСЏ СЃР»РѕС‚Р° SIM РєР°СЂС‚С‹
   int getManufacturer(char *str);
   int getModel(char *str);
   int getSoftVer(char *str);
@@ -197,30 +197,30 @@ protected:
 private:
   static const threadCreationDisposition tcd;
 
-  char          rx[GSM_RX_SZ]; //Буфер на прием
-  char          tx[GSM_TX_SZ]; //Буфер на передачу
+  char          rx[GSM_RX_SZ]; //Р‘СѓС„РµСЂ РЅР° РїСЂРёРµРј
+  char          tx[GSM_TX_SZ]; //Р‘СѓС„РµСЂ РЅР° РїРµСЂРµРґР°С‡Сѓ
 
-#define GSM_RX_FSM_URC  0 //Шаг когда могут приходить только URC
-#define GSM_RX_FSM_ECHO 1 //Шаг ожидания эхо
-#define GSM_RX_FSM_RESP 2 //Шаг приема ответа
-  unsigned char rx_fsm;   //Автомат приема
+#define GSM_RX_FSM_URC  0 //РЁР°Рі РєРѕРіРґР° РјРѕРіСѓС‚ РїСЂРёС…РѕРґРёС‚СЊ С‚РѕР»СЊРєРѕ URC
+#define GSM_RX_FSM_ECHO 1 //РЁР°Рі РѕР¶РёРґР°РЅРёСЏ СЌС…Рѕ
+#define GSM_RX_FSM_RESP 2 //РЁР°Рі РїСЂРёРµРјР° РѕС‚РІРµС‚Р°
+  unsigned char rx_fsm;   //РђРІС‚РѕРјР°С‚ РїСЂРёРµРјР°
 #define GSM_MODE_CMD    0
 #define GSM_MODE_DATA   1
-  unsigned char mode;     //Режим связи с GSM модемом
-  unsigned long ips;  //Системное время для межкомандной паузы
-  bool          at_ready; //Признак готовности принимать AT комманды
-  unsigned char net_reg; //Состояние регистрации в сети
-  int           err;  //Ошибка для передачи между потоками
+  unsigned char mode;     //Р РµР¶РёРј СЃРІСЏР·Рё СЃ GSM РјРѕРґРµРјРѕРј
+  unsigned long ips;  //РЎРёСЃС‚РµРјРЅРѕРµ РІСЂРµРјСЏ РґР»СЏ РјРµР¶РєРѕРјР°РЅРґРЅРѕР№ РїР°СѓР·С‹
+  bool          at_ready; //РџСЂРёР·РЅР°Рє РіРѕС‚РѕРІРЅРѕСЃС‚Рё РїСЂРёРЅРёРјР°С‚СЊ AT РєРѕРјРјР°РЅРґС‹
+  unsigned char net_reg; //РЎРѕСЃС‚РѕСЏРЅРёРµ СЂРµРіРёСЃС‚СЂР°С†РёРё РІ СЃРµС‚Рё
+  int           err;  //РћС€РёР±РєР° РґР»СЏ РїРµСЂРµРґР°С‡Рё РјРµР¶РґСѓ РїРѕС‚РѕРєР°РјРё
 
-#define GSM_EP_RX_LINE  0x01 //Принята строка
-#define GSM_EP_RX_FULL  0x02 //Буфер заполнен частью строки
-#define GSM_EP_RX_EMPTY 0x04 //Принята пустая строка
-#define GSM_EP_RX_FREE  0x08 //Приемный буфер свободен
-#define GSM_EP_RX_ERR   0x10 //Ошибка при приеме
-  eventpack     ep;   //События для синхронизации потоков приема/передачи данных gsm модема
+#define GSM_EP_RX_LINE  0x01 //РџСЂРёРЅСЏС‚Р° СЃС‚СЂРѕРєР°
+#define GSM_EP_RX_FULL  0x02 //Р‘СѓС„РµСЂ Р·Р°РїРѕР»РЅРµРЅ С‡Р°СЃС‚СЊСЋ СЃС‚СЂРѕРєРё
+#define GSM_EP_RX_EMPTY 0x04 //РџСЂРёРЅСЏС‚Р° РїСѓСЃС‚Р°СЏ СЃС‚СЂРѕРєР°
+#define GSM_EP_RX_FREE  0x08 //РџСЂРёРµРјРЅС‹Р№ Р±СѓС„РµСЂ СЃРІРѕР±РѕРґРµРЅ
+#define GSM_EP_RX_ERR   0x10 //РћС€РёР±РєР° РїСЂРё РїСЂРёРµРјРµ
+  eventpack     ep;   //РЎРѕР±С‹С‚РёСЏ РґР»СЏ СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёРё РїРѕС‚РѕРєРѕРІ РїСЂРёРµРјР°/РїРµСЂРµРґР°С‡Рё РґР°РЅРЅС‹С… gsm РјРѕРґРµРјР°
 
-  gsm_events*   events;   //Указатель на класс с обработчиками событий
-  mutex         synclock; //Мутекс для синхронизации доступа к данным класса
+  gsm_events*   events;   //РЈРєР°Р·Р°С‚РµР»СЊ РЅР° РєР»Р°СЃСЃ СЃ РѕР±СЂР°Р±РѕС‚С‡РёРєР°РјРё СЃРѕР±С‹С‚РёР№
+  mutex         synclock; //РњСѓС‚РµРєСЃ РґР»СЏ СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёРё РґРѕСЃС‚СѓРїР° Рє РґР°РЅРЅС‹Рј РєР»Р°СЃСЃР°
 
   int readln(int timeout = GSM_RX_CHAR_TIMEOUT);
   int write(int sz);

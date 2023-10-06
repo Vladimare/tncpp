@@ -14,19 +14,19 @@ public:
   ~gprs_netif();
 
 
-  TN_NETIF tn_netif;                  /* управляющий блок tn net                        */
+  TN_NETIF tn_netif;                  /* СѓРїСЂР°РІР»СЏСЋС‰РёР№ Р±Р»РѕРє tn net                        */
 
 protected:
   int gprs_rx(unsigned char* data, int sz);
 
 private:
-  gsm*    low;                        /* gsm-подложка                                   */
-  TN_NET* pnet;                       /* верхний уровень, на который работает данный    */
-                                      /*   интерфейс                                    */
+  gsm*    low;                        /* gsm-РїРѕРґР»РѕР¶РєР°                                   */
+  TN_NET* pnet;                       /* РІРµСЂС…РЅРёР№ СѓСЂРѕРІРµРЅСЊ, РЅР° РєРѕС‚РѕСЂС‹Р№ СЂР°Р±РѕС‚Р°РµС‚ РґР°РЅРЅС‹Р№    */
+                                      /*   РёРЅС‚РµСЂС„РµР№СЃ                                    */
 
   static gprs_netif* _gprs;
 
-  /* эти методы доступны только через tn net, напрямую их вызвать нельзя */
+  /* СЌС‚Рё РјРµС‚РѕРґС‹ РґРѕСЃС‚СѓРїРЅС‹ С‚РѕР»СЊРєРѕ С‡РµСЂРµР· tn net, РЅР°РїСЂСЏРјСѓСЋ РёС… РІС‹Р·РІР°С‚СЊ РЅРµР»СЊР·СЏ */
   static int gprs_tx    (TN_NET* tnet, struct tn_netif* ni, TN_MBUF* mb);
   static int gprs_ioctl (TN_NET* tnet, struct tn_netif* ni, int req_type, void* par);
   static int gprs_init  (TN_NET* tnet, struct tn_netif* ni);

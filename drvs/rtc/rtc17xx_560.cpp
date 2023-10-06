@@ -12,19 +12,19 @@ rtc17xx_560::rtc17xx_560(LPC_TIM_TypeDef* phy, rtcCreationDisposition* rcd)
 {
   g_rtc = this;
 
-                                      /* âíåøíèé èìïóëüñ ñèíõðîíèçàöèè âðåìåíè          */
-                                      /*   (òàéìïóëüñ ñ ìîäóëÿ GPS / ÃËÎÍÀÑÑ) ïðèõîäèò  */
-                                      /*   íà âíåøíåå ïðåðûâàíèå EINT2 (íîãà P2.12)     */
+                                      /* Ð²Ð½ÐµÑˆÐ½Ð¸Ð¹ Ð¸Ð¼Ð¿ÑƒÐ»ÑŒÑ ÑÐ¸Ð½Ñ…Ñ€Ð¾Ð½Ð¸Ð·Ð°Ñ†Ð¸Ð¸ Ð²Ñ€ÐµÐ¼ÐµÐ½Ð¸          */
+                                      /*   (Ñ‚Ð°Ð¹Ð¼Ð¿ÑƒÐ»ÑŒÑ Ñ Ð¼Ð¾Ð´ÑƒÐ»Ñ GPS / Ð“Ð›ÐžÐÐÐ¡Ð¡) Ð¿Ñ€Ð¸Ñ…Ð¾Ð´Ð¸Ñ‚  */
+                                      /*   Ð½Ð° Ð²Ð½ÐµÑˆÐ½ÐµÐµ Ð¿Ñ€ÐµÑ€Ñ‹Ð²Ð°Ð½Ð¸Ðµ EINT2 (Ð½Ð¾Ð³Ð° P2.12)     */
   LPC_PINCON->PINSEL4 &= ~(0x03ul << (P2_12 * 2));
   LPC_PINCON->PINSEL4 |=  P2_12_EINT2;
-                                      /* âêëþ÷àåì ïîäòÿæêó                              */
+                                      /* Ð²ÐºÐ»ÑŽÑ‡Ð°ÐµÐ¼ Ð¿Ð¾Ð´Ñ‚ÑÐ¶ÐºÑƒ                              */
   LPC_PINCON->PINMODE4&= ~(0x03ul << (P2_12 * 2));
   LPC_PINCON->PINMODE4|=  (PULLUP << (P2_12 * 2));
 
-  coreUnregisterIRQ(IRQ0_EINT2);      /* çàïðåùàåì ïðåðûâàíèå EINT2 ïåðåä íàñòðîéêîé    */
-  LPC_SC->EXTMODE     |=  0x04;       /* ïðåðûâàíèå EINT2 ðàáîòàåò ïî ôðîíòó            */
-  LPC_SC->EXTPOLAR    |=  0x04;       /* ôðîíò ïåðåäíèé                                 */
-  LPC_SC->EXTINT      |=  0x04;       /* ÷èñòèì ïðåðûâàíèÿ                              */
+  coreUnregisterIRQ(IRQ0_EINT2);      /* Ð·Ð°Ð¿Ñ€ÐµÑ‰Ð°ÐµÐ¼ Ð¿Ñ€ÐµÑ€Ñ‹Ð²Ð°Ð½Ð¸Ðµ EINT2 Ð¿ÐµÑ€ÐµÐ´ Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¾Ð¹    */
+  LPC_SC->EXTMODE     |=  0x04;       /* Ð¿Ñ€ÐµÑ€Ñ‹Ð²Ð°Ð½Ð¸Ðµ EINT2 Ñ€Ð°Ð±Ð¾Ñ‚Ð°ÐµÑ‚ Ð¿Ð¾ Ñ„Ñ€Ð¾Ð½Ñ‚Ñƒ            */
+  LPC_SC->EXTPOLAR    |=  0x04;       /* Ñ„Ñ€Ð¾Ð½Ñ‚ Ð¿ÐµÑ€ÐµÐ´Ð½Ð¸Ð¹                                 */
+  LPC_SC->EXTINT      |=  0x04;       /* Ñ‡Ð¸ÑÑ‚Ð¸Ð¼ Ð¿Ñ€ÐµÑ€Ñ‹Ð²Ð°Ð½Ð¸Ñ                              */
 
   this->einth_binder.task       = &rtc17xx_560::register_einth;
   this->einth_binder.param      = this;
@@ -35,8 +35,8 @@ rtc17xx_560::rtc17xx_560(LPC_TIM_TypeDef* phy, rtcCreationDisposition* rcd)
 
 rtc17xx_560::~rtc17xx_560()
 {
-  coreUnregisterIRQ(IRQ0_EINT2);      /* ñíèìàåì ïðåðûâàíèå ñ ðåãèñòðàöèè               */
-                                      /* íîæêó â èñõîäíîå ñîñòîÿíèå                     */
+  coreUnregisterIRQ(IRQ0_EINT2);      /* ÑÐ½Ð¸Ð¼Ð°ÐµÐ¼ Ð¿Ñ€ÐµÑ€Ñ‹Ð²Ð°Ð½Ð¸Ðµ Ñ Ñ€ÐµÐ³Ð¸ÑÑ‚Ñ€Ð°Ñ†Ð¸Ð¸               */
+                                      /* Ð½Ð¾Ð¶ÐºÑƒ Ð² Ð¸ÑÑ…Ð¾Ð´Ð½Ð¾Ðµ ÑÐ¾ÑÑ‚Ð¾ÑÐ½Ð¸Ðµ                     */
   LPC_PINCON->PINSEL4 &= ~(0x03ul << (P2_12 * 2));
   LPC_PINCON->PINMODE4&= ~(0x03ul << (P2_12 * 2));
 }
@@ -49,13 +49,13 @@ void rtc17xx_560::register_einth(void* param)
 
 void rtc17xx_560::einth(void* instance)
 {
-  LPC_SC->EXTINT |= 0x04;             /* ÷èñòèì ïðåðûâàíèÿ                              */
+  LPC_SC->EXTINT |= 0x04;             /* Ñ‡Ð¸ÑÑ‚Ð¸Ð¼ Ð¿Ñ€ÐµÑ€Ñ‹Ð²Ð°Ð½Ð¸Ñ                              */
 
-                                      /* îáíóëÿåì ìèëëèñåêóíäû                          */
+                                      /* Ð¾Ð±Ð½ÑƒÐ»ÑÐµÐ¼ Ð¼Ð¸Ð»Ð»Ð¸ÑÐµÐºÑƒÐ½Ð´Ñ‹                          */
   ((rtc17xx_560*)instance)->syncPhase();
 
   if(upb_vhfmaster_560::g_vhf560)
-  {                                   /* âûäàåì ñèíõðîèìïóëüñ â ÓÊÂ-êàíàë               */
+  {                                   /* Ð²Ñ‹Ð´Ð°ÐµÐ¼ ÑÐ¸Ð½Ñ…Ñ€Ð¾Ð¸Ð¼Ð¿ÑƒÐ»ÑŒÑ Ð² Ð£ÐšÐ’-ÐºÐ°Ð½Ð°Ð»               */
     unsigned long utc = 0;
     int err = ((rtc17xx_560*)instance)->getRTC(&utc, 0);
 

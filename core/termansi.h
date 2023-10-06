@@ -2,15 +2,15 @@
 #define _TERMANSI_H_
 
 
-                                      /* атрибуты текста                                */
-#define TERMANSI_TATTR_ALLOFF     0   /* все атрибуты отключены                         */
-#define TERMANSI_TATTR_BOLD       1   /* жирный текст                                   */
-#define TERMANSI_TATTR_UNDERSCORE 4   /* подчеркивание (только на монохромных)          */
-#define TERMANSI_TATTR_BLINK      5   /* мигание                                        */
-#define TERMANSI_TATTR_REVVIDEO   7   /* инверсия                                       */
-#define TERMANSI_TATTR_CONCEALED  8   /* утопленный                                     */
+                                      /* Р°С‚СЂРёР±СѓС‚С‹ С‚РµРєСЃС‚Р°                                */
+#define TERMANSI_TATTR_ALLOFF     0   /* РІСЃРµ Р°С‚СЂРёР±СѓС‚С‹ РѕС‚РєР»СЋС‡РµРЅС‹                         */
+#define TERMANSI_TATTR_BOLD       1   /* Р¶РёСЂРЅС‹Р№ С‚РµРєСЃС‚                                   */
+#define TERMANSI_TATTR_UNDERSCORE 4   /* РїРѕРґС‡РµСЂРєРёРІР°РЅРёРµ (С‚РѕР»СЊРєРѕ РЅР° РјРѕРЅРѕС…СЂРѕРјРЅС‹С…)          */
+#define TERMANSI_TATTR_BLINK      5   /* РјРёРіР°РЅРёРµ                                        */
+#define TERMANSI_TATTR_REVVIDEO   7   /* РёРЅРІРµСЂСЃРёСЏ                                       */
+#define TERMANSI_TATTR_CONCEALED  8   /* СѓС‚РѕРїР»РµРЅРЅС‹Р№                                     */
 
-                                      /* foreground цвета                                */
+                                      /* foreground С†РІРµС‚Р°                                */
 #define TERMANSI_FC_BLACK         30
 #define TERMANSI_FC_RED           31
 #define TERMANSI_FC_GREEN         32
@@ -20,7 +20,7 @@
 #define TERMANSI_FC_CYAN          36
 #define TERMANSI_FC_WHITE         37
 
-                                      /* background цвета                               */
+                                      /* background С†РІРµС‚Р°                               */
 #define TERMANSI_BC_BLACK         40
 #define TERMANSI_BC_RED           41
 #define TERMANSI_BC_GREEN         42
@@ -30,7 +30,7 @@
 #define TERMANSI_BC_CYAN          46
 #define TERMANSI_BC_WHITE         47
 
-                                      /* параметры терминала                            */
+                                      /* РїР°СЂР°РјРµС‚СЂС‹ С‚РµСЂРјРёРЅР°Р»Р°                            */
 #define TERMANSI_DISP_TXT_MONO_40x25      0
 #define TERMANSI_DISP_TXT_COLOR_40x25     1
 #define TERMANSI_DISP_TXT_MONO_80x25      2

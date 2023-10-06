@@ -3,7 +3,7 @@
 #include "corelib.h"
 #include <string.h>
 
-/* конструктор */
+/* РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ */
 cfgtree::cfgtree(const SS_INFO& ssi, extstorage* estrg)
 {
   this->bufInt  = 0;
@@ -14,7 +14,7 @@ cfgtree::cfgtree(const SS_INFO& ssi, extstorage* estrg)
   this->carrier = estrg;
 }
 
-/* деструктор */
+/* РґРµСЃС‚СЂСѓРєС‚РѕСЂ */
 cfgtree::~cfgtree()
 {
   if (this->bufInt != NULL) 
@@ -26,7 +26,7 @@ cfgtree::~cfgtree()
         delete this->bHeaders[i].cache;
 }
 
-/* инициализация дерева конфирурации с проверкой всего дерева */
+/* РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РґРµСЂРµРІР° РєРѕРЅС„РёСЂСѓСЂР°С†РёРё СЃ РїСЂРѕРІРµСЂРєРѕР№ РІСЃРµРіРѕ РґРµСЂРµРІР° */
 int cfgtree::init(CFGENTRY* headers, int size)
 {
   int i, offset, ret = ERR_OK, maxSize;
@@ -34,48 +34,48 @@ int cfgtree::init(CFGENTRY* headers, int size)
   this->bHeaders  = new CFGHDR[size];
 
   this->bCount    = size;
-                                      /* начальное смещение                   */
+                                      /* РЅР°С‡Р°Р»СЊРЅРѕРµ СЃРјРµС‰РµРЅРёРµ                   */
   offset = layout.block_size * (layout.block_start);
   maxSize = 0;
 
-                                      /* формируем внутреннюю таблицу         *
-                                       * заголовков                           */
+                                      /* С„РѕСЂРјРёСЂСѓРµРј РІРЅСѓС‚СЂРµРЅРЅСЋСЋ С‚Р°Р±Р»РёС†Сѓ         *
+                                       * Р·Р°РіРѕР»РѕРІРєРѕРІ                           */
   for( i = 0; i < size; i++)
   {
     this->bHeaders[i].number  = headers[i].blk_number;
-                                      /* вычисляем смещение для каждого блока */
+                                      /* РІС‹С‡РёСЃР»СЏРµРј СЃРјРµС‰РµРЅРёРµ РґР»СЏ РєР°Р¶РґРѕРіРѕ Р±Р»РѕРєР° */
     this->bHeaders[i].lookup  = offset;
     this->bHeaders[i].size    = headers[i].blk_sz;
     this->bHeaders[i].lev     = 1 + (headers[i].blk_flags & 3);
-    offset += this->bHeaders[i].size + 5;/* плюс заголовок и CRC16            */
+    offset += this->bHeaders[i].size + 5;/* РїР»СЋСЃ Р·Р°РіРѕР»РѕРІРѕРє Рё CRC16            */
 
-                                      /* выч. максимальную длинну блока данных*/
+                                      /* РІС‹С‡. РјР°РєСЃРёРјР°Р»СЊРЅСѓСЋ РґР»РёРЅРЅСѓ Р±Р»РѕРєР° РґР°РЅРЅС‹С…*/
     if (maxSize  < this->bHeaders[i].size) 
       maxSize = this->bHeaders[i].size;
 
-                                      /* разервируем буферы в ОЗУ только для  *
-                                       * тех блоков которые требуют           *
-                                       *  дублирования                        */
+                                      /* СЂР°Р·РµСЂРІРёСЂСѓРµРј Р±СѓС„РµСЂС‹ РІ РћР—РЈ С‚РѕР»СЊРєРѕ РґР»СЏ  *
+                                       * С‚РµС… Р±Р»РѕРєРѕРІ РєРѕС‚РѕСЂС‹Рµ С‚СЂРµР±СѓСЋС‚           *
+                                       *  РґСѓР±Р»РёСЂРѕРІР°РЅРёСЏ                        */
     if(CFG_CACHED & headers[i].blk_flags)
       this->bHeaders[i].cache = new unsigned char [bHeaders[i].size];
     else
       this->bHeaders[i].cache = NULL;
   }
-                                      /* макс размер + CRC + заголовок        */
+                                      /* РјР°РєСЃ СЂР°Р·РјРµСЂ + CRC + Р·Р°РіРѕР»РѕРІРѕРє        */
   this->bufInt = new unsigned char[maxSize + 3 + 2];
 
 
-                                      /* проверка содержания блоков           */
+                                      /* РїСЂРѕРІРµСЂРєР° СЃРѕРґРµСЂР¶Р°РЅРёСЏ Р±Р»РѕРєРѕРІ           */
   for( i = 0; i < size; i++)
   {
-                                      /* читаем блок                          */
+                                      /* С‡РёС‚Р°РµРј Р±Р»РѕРє                          */
     ret = this->carrier->read(this->bHeaders[i].lookup, bufInt, this->bHeaders[i].size + 5);
     if (ret < ERR_OK) return ret;
 
     unsigned short currentBsize;
     currentBsize = bufInt[1];
     currentBsize |= ( 0x1f & bufInt[2]) << 8;
-                                      /* проверка длинны                      */
+                                      /* РїСЂРѕРІРµСЂРєР° РґР»РёРЅРЅС‹                      */
     if (currentBsize != this->bHeaders[i].size)
     {
       ret = ERR_DATA_CORRUPTED;
@@ -84,20 +84,20 @@ int cfgtree::init(CFGENTRY* headers, int size)
 
     unsigned char  lev;
     lev = 1 + (0x3 & (bufInt[2] >> 5));
-                                      /* проверка уровня вложенности          */
+                                      /* РїСЂРѕРІРµСЂРєР° СѓСЂРѕРІРЅСЏ РІР»РѕР¶РµРЅРЅРѕСЃС‚Рё          */
     if (lev != this->bHeaders[i].lev)
     {
       ret = ERR_DATA_CORRUPTED;
       break;
     }
 
-                                      /* проверка номера блока                */
+                                      /* РїСЂРѕРІРµСЂРєР° РЅРѕРјРµСЂР° Р±Р»РѕРєР°                */
     if (bufInt[0]  != this->bHeaders[i].number)
     {
       ret = ERR_DATA_CORRUPTED;
       break;
     }
-                                      /* вычисление контрольной суммы         */
+                                      /* РІС‹С‡РёСЃР»РµРЅРёРµ РєРѕРЅС‚СЂРѕР»СЊРЅРѕР№ СЃСѓРјРјС‹         */
     unsigned short crc, crcStrored;
 
     crc = crc16(bufInt, 3 + currentBsize, 0);
@@ -105,21 +105,21 @@ int cfgtree::init(CFGENTRY* headers, int size)
     crcStrored = bufInt[3 + currentBsize];
     crcStrored |= bufInt[3 + currentBsize + 1] << 8;
 
-                                      /* проверка контрольной суммы           */
+                                      /* РїСЂРѕРІРµСЂРєР° РєРѕРЅС‚СЂРѕР»СЊРЅРѕР№ СЃСѓРјРјС‹           */
     if (crc != crcStrored)
     {
       ret = ERR_DATA_CORRUPTED;
       break;
     }
-                                      /* если блок требует дублирования, то   * 
-                                       * копируем во внутренний буфер         */
+                                      /* РµСЃР»Рё Р±Р»РѕРє С‚СЂРµР±СѓРµС‚ РґСѓР±Р»РёСЂРѕРІР°РЅРёСЏ, С‚Рѕ   * 
+                                       * РєРѕРїРёСЂСѓРµРј РІРѕ РІРЅСѓС‚СЂРµРЅРЅРёР№ Р±СѓС„РµСЂ         */
     if(this->bHeaders[i].cache != NULL)
       memcpy(this->bHeaders[i].cache, &this->bufInt[3], this->bHeaders[i].size);
   }
   return ret;
 }
 
-/* поиск номера блока по индексу */
+/* РїРѕРёСЃРє РЅРѕРјРµСЂР° Р±Р»РѕРєР° РїРѕ РёРЅРґРµРєСЃСѓ */
 int cfgtree::index2num(unsigned long index)
 {
   int i, j, lev;
@@ -127,23 +127,23 @@ int cfgtree::index2num(unsigned long index)
 
   for( i = 0; i < this->bCount; i++)
   {
-                                      /* вычисляем индекс для текущего блока  */
+                                      /* РІС‹С‡РёСЃР»СЏРµРј РёРЅРґРµРєСЃ РґР»СЏ С‚РµРєСѓС‰РµРіРѕ Р±Р»РѕРєР°  */
     lev = this->bHeaders[i].lev;
-                                      /* обнуляем все не старшие значения     *
-                                       * уровня                               *
-                                       * старшие уровни в младших байтах.     */
+                                      /* РѕР±РЅСѓР»СЏРµРј РІСЃРµ РЅРµ СЃС‚Р°СЂС€РёРµ Р·РЅР°С‡РµРЅРёСЏ     *
+                                       * СѓСЂРѕРІРЅСЏ                               *
+                                       * СЃС‚Р°СЂС€РёРµ СѓСЂРѕРІРЅРё РІ РјР»Р°РґС€РёС… Р±Р°Р№С‚Р°С….     */
     for( j = 0; j <= (4 - lev) ; j++)
       curIndex &= ~(0xff << (8 * (3 - j)));
-                                      /* обновляем текущее значение уровня    */
+                                      /* РѕР±РЅРѕРІР»СЏРµРј С‚РµРєСѓС‰РµРµ Р·РЅР°С‡РµРЅРёРµ СѓСЂРѕРІРЅСЏ    */
     curIndex |= (this->bHeaders[i].number << (8 * (lev - 1)));
 
-    if (curIndex == index)            /* попали ?                             */
-      return i;                       /* поиск завершился удачно              */
+    if (curIndex == index)            /* РїРѕРїР°Р»Рё ?                             */
+      return i;                       /* РїРѕРёСЃРє Р·Р°РІРµСЂС€РёР»СЃСЏ СѓРґР°С‡РЅРѕ              */
   }
-  return ERR_ADDRESS;                 /* записи с указанным индексом нет      */
+  return ERR_ADDRESS;                 /* Р·Р°РїРёСЃРё СЃ СѓРєР°Р·Р°РЅРЅС‹Рј РёРЅРґРµРєСЃРѕРј РЅРµС‚      */
 }
 
-/* формирование заголовка, для записи во внешний носитель  */
+/* С„РѕСЂРјРёСЂРѕРІР°РЅРёРµ Р·Р°РіРѕР»РѕРІРєР°, РґР»СЏ Р·Р°РїРёСЃРё РІРѕ РІРЅРµС€РЅРёР№ РЅРѕСЃРёС‚РµР»СЊ  */
 int cfgtree::packHeadr(int num)
 {
   this->bufInt[0] = this->bHeaders[num].number;
@@ -155,10 +155,10 @@ int cfgtree::packHeadr(int num)
   return ERR_OK;
 }
 
-/* чтение конфигурации 
-приемный буфер мб больше нашей записи если он будет меньше, 
-то считаем только запрошенное количество.
-При bufsz = 0 будет не считывание, а контроль целостности блока */
+/* С‡С‚РµРЅРёРµ РєРѕРЅС„РёРіСѓСЂР°С†РёРё 
+РїСЂРёРµРјРЅС‹Р№ Р±СѓС„РµСЂ РјР± Р±РѕР»СЊС€Рµ РЅР°С€РµР№ Р·Р°РїРёСЃРё РµСЃР»Рё РѕРЅ Р±СѓРґРµС‚ РјРµРЅСЊС€Рµ, 
+С‚Рѕ СЃС‡РёС‚Р°РµРј С‚РѕР»СЊРєРѕ Р·Р°РїСЂРѕС€РµРЅРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ.
+РџСЂРё bufsz = 0 Р±СѓРґРµС‚ РЅРµ СЃС‡РёС‚С‹РІР°РЅРёРµ, Р° РєРѕРЅС‚СЂРѕР»СЊ С†РµР»РѕСЃС‚РЅРѕСЃС‚Рё Р±Р»РѕРєР° */
 int cfgtree::read(unsigned long index, unsigned char* bufExt, int bufsz)
 {
   int bN, ret;
@@ -166,24 +166,24 @@ int cfgtree::read(unsigned long index, unsigned char* bufExt, int bufsz)
 
   bN = index2num(index);
   if (bN < ERR_OK)
-    return bN;                        /* мимо                                 */
+    return bN;                        /* РјРёРјРѕ                                 */
 
   curHeader = &this->bHeaders[bN];
 
-  if (bufsz > curHeader->size)        /* корректируем длинну                  */
+  if (bufsz > curHeader->size)        /* РєРѕСЂСЂРµРєС‚РёСЂСѓРµРј РґР»РёРЅРЅСѓ                  */
     bufsz = curHeader->size;
 
   if(curHeader->cache != NULL)
   {
-                                      /* если запись дублирована в ОЗУ, то ее *
-                                       * не нужно контролировать              */
+                                      /* РµСЃР»Рё Р·Р°РїРёСЃСЊ РґСѓР±Р»РёСЂРѕРІР°РЅР° РІ РћР—РЈ, С‚Рѕ РµРµ *
+                                       * РЅРµ РЅСѓР¶РЅРѕ РєРѕРЅС‚СЂРѕР»РёСЂРѕРІР°С‚СЊ              */
     memcpy(bufExt, curHeader->cache, bufsz);
   }else
   {
-                                      /* читаем выбранный блок                */
+                                      /* С‡РёС‚Р°РµРј РІС‹Р±СЂР°РЅРЅС‹Р№ Р±Р»РѕРє                */
     ret = this->carrier->read(curHeader->lookup, bufInt, curHeader->size + 5);
     if (ret < ERR_OK) return ret;
-                                      /* вычисление контрольной суммы         */
+                                      /* РІС‹С‡РёСЃР»РµРЅРёРµ РєРѕРЅС‚СЂРѕР»СЊРЅРѕР№ СЃСѓРјРјС‹         */
     unsigned short crc, crcStrored;
 
     crc = crc16(bufInt, 3 + curHeader->size, 0);
@@ -191,19 +191,19 @@ int cfgtree::read(unsigned long index, unsigned char* bufExt, int bufsz)
     crcStrored = bufInt[3 + curHeader->size];
     crcStrored |= bufInt[3 + curHeader->size + 1] << 8;
 
-                                      /* проверка контрольной суммы           */
+                                      /* РїСЂРѕРІРµСЂРєР° РєРѕРЅС‚СЂРѕР»СЊРЅРѕР№ СЃСѓРјРјС‹           */
     if (crc != crcStrored)
     {
       return ERR_DATA_CORRUPTED;
     }
-                                      /* данные корректны, обновим внешний    *
-                                       * буффер                               */
+                                      /* РґР°РЅРЅС‹Рµ РєРѕСЂСЂРµРєС‚РЅС‹, РѕР±РЅРѕРІРёРј РІРЅРµС€РЅРёР№    *
+                                       * Р±СѓС„С„РµСЂ                               */
     memcpy(bufExt, &this->bufInt[3], bufsz);
   }
   return ERR_OK;
 }
 
-/* запись конфигурации */
+/* Р·Р°РїРёСЃСЊ РєРѕРЅС„РёРіСѓСЂР°С†РёРё */
 int cfgtree::write(unsigned long index, unsigned char* bufExt, int bufsz)
 {
   int blockNumber, ret;
@@ -211,22 +211,22 @@ int cfgtree::write(unsigned long index, unsigned char* bufExt, int bufsz)
 
   blockNumber = index2num(index);
   if (blockNumber < ERR_OK)
-    return blockNumber;               /* мимо                                 */
+    return blockNumber;               /* РјРёРјРѕ                                 */
 
   curHeader = &this->bHeaders[blockNumber];
 
   if (bufsz > curHeader->size)
-  {                                   /* меньше можно, больше - нет           */
+  {                                   /* РјРµРЅСЊС€Рµ РјРѕР¶РЅРѕ, Р±РѕР»СЊС€Рµ - РЅРµС‚           */
     return ERR_DATA_SIZE;
   }
 
-  this->packHeadr(blockNumber);       /* копируем заголовок                   */
+  this->packHeadr(blockNumber);       /* РєРѕРїРёСЂСѓРµРј Р·Р°РіРѕР»РѕРІРѕРє                   */
 
-                                      /* копируем изменяемую часть данных     */
+                                      /* РєРѕРїРёСЂСѓРµРј РёР·РјРµРЅСЏРµРјСѓСЋ С‡Р°СЃС‚СЊ РґР°РЅРЅС‹С…     */
   memcpy(&this->bufInt[3], bufExt, bufsz); 
 
-                                      /* если изменяемая часть меньше общей   */
-                                      /* длинны, дочитываем остаток           */
+                                      /* РµСЃР»Рё РёР·РјРµРЅСЏРµРјР°СЏ С‡Р°СЃС‚СЊ РјРµРЅСЊС€Рµ РѕР±С‰РµР№   */
+                                      /* РґР»РёРЅРЅС‹, РґРѕС‡РёС‚С‹РІР°РµРј РѕСЃС‚Р°С‚РѕРє           */
   if (bufsz != curHeader->size)
   {
     ret = this->carrier->read(
@@ -236,15 +236,15 @@ int cfgtree::write(unsigned long index, unsigned char* bufExt, int bufsz)
     if (ret < ERR_OK) return ret;
   }
 
-                                      /* пересчитываем CRC                    */
+                                      /* РїРµСЂРµСЃС‡РёС‚С‹РІР°РµРј CRC                    */
   unsigned short crc = crc16(bufInt, 3 + this->bHeaders[blockNumber].size, 0);
 
-                                      /* добавляем новую CRC в конец пакета   */
+                                      /* РґРѕР±Р°РІР»СЏРµРј РЅРѕРІСѓСЋ CRC РІ РєРѕРЅРµС† РїР°РєРµС‚Р°   */
   bufInt[3 + curHeader->size]     = (unsigned char)crc;
   bufInt[3 + curHeader->size + 1] = crc >> 8;
 
-                                      /* финал, пишем все - данные, заголовок */
-                                      /* и контрольную сумму                  */
+                                      /* С„РёРЅР°Р», РїРёС€РµРј РІСЃРµ - РґР°РЅРЅС‹Рµ, Р·Р°РіРѕР»РѕРІРѕРє */
+                                      /* Рё РєРѕРЅС‚СЂРѕР»СЊРЅСѓСЋ СЃСѓРјРјСѓ                  */
   ret = this->carrier->write(curHeader->lookup, bufInt, curHeader->size + 5);
   if (ret < ERR_OK) return ret;
 

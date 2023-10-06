@@ -65,10 +65,10 @@ int gprs_netif::gprs_ioctl(TN_NET* tnet, struct tn_netif* ni, int req_type, void
 int gprs_netif::gprs_init(TN_NET* tnet, struct tn_netif* ni)
 {
   if(!gprs_netif::_gprs->low)
-    return ERR_PARAM;                 /* íå óêàçàí äðàéâåð gsm                          */
+    return ERR_PARAM;                 /* Ð½Ðµ ÑƒÐºÐ°Ð·Ð°Ð½ Ð´Ñ€Ð°Ð¹Ð²ÐµÑ€ gsm                          */
 
-  //TODO: äîáàâèòü ÷òåíèå gprs-êîíôèãóðàöèè
-  //TODO: cid äîëæåí âûáèðàòüñÿ èç äèàïàçîíà, êîòîðûé âîçâðàùàåò ìîäåì
+  //TODO: Ð´Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ñ‡Ñ‚ÐµÐ½Ð¸Ðµ gprs-ÐºÐ¾Ð½Ñ„Ð¸Ð³ÑƒÑ€Ð°Ñ†Ð¸Ð¸
+  //TODO: cid Ð´Ð¾Ð»Ð¶ÐµÐ½ Ð²Ñ‹Ð±Ð¸Ñ€Ð°Ñ‚ÑŒÑÑ Ð¸Ð· Ð´Ð¸Ð°Ð¿Ð°Ð·Ð¾Ð½Ð°, ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ð¹ Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÑ‚ Ð¼Ð¾Ð´ÐµÐ¼
   int err = gprs_netif::_gprs->low->setPDP(1);
   if(err != ERR_OK)
   {

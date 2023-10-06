@@ -26,7 +26,7 @@ public:
   usb_cdc(LPC_USB_TypeDef* phy, usbCreationDisposition* cd);
   virtual ~usb_cdc();
 
-  /******************************* реализация serialPort ********************************/
+  /******************************* СЂРµР°Р»РёР·Р°С†РёСЏ serialPort ********************************/
   virtual int init      (const portSettings& ps);
   virtual const portSettings& settings();
   virtual int read      (unsigned char* buf, int  bufsz);
@@ -40,52 +40,52 @@ public:
   virtual int purge     (unsigned char queue);
   virtual int sendchar  (unsigned char c);
 
-  /******************************** реализация rs232Port ********************************/
+  /******************************** СЂРµР°Р»РёР·Р°С†РёСЏ rs232Port ********************************/
   virtual int setRS232(int  pinlist);
   virtual int getRS232(int* pinlist);
 
 
 private:
-  PIN_SETUP       pinSetupProc;       /* метод управления ногами порта                  */
-  unsigned char   irqNum;             /* номер прерывания порта                         */
-  unsigned long   pconpMask;          /* маска в PCONP                                  */
-  portSettings    ps;                 /* текущие настройки порта                        */
+  PIN_SETUP       pinSetupProc;       /* РјРµС‚РѕРґ СѓРїСЂР°РІР»РµРЅРёСЏ РЅРѕРіР°РјРё РїРѕСЂС‚Р°                  */
+  unsigned char   irqNum;             /* РЅРѕРјРµСЂ РїСЂРµСЂС‹РІР°РЅРёСЏ РїРѕСЂС‚Р°                         */
+  unsigned long   pconpMask;          /* РјР°СЃРєР° РІ PCONP                                  */
+  portSettings    ps;                 /* С‚РµРєСѓС‰РёРµ РЅР°СЃС‚СЂРѕР№РєРё РїРѕСЂС‚Р°                        */
   unsigned char   irqPrior;
 protected:
-  unsigned short  SWversion;          /* версия ПО                                      */
-  unsigned char*  serialString;       /* серийный номер                                 */
+  unsigned short  SWversion;          /* РІРµСЂСЃРёСЏ РџРћ                                      */
+  unsigned char*  serialString;       /* СЃРµСЂРёР№РЅС‹Р№ РЅРѕРјРµСЂ                                 */
 
 #define EVT_RXCOMPLETE  0x01
 #define EVT_TXCOMPLETE  0x02
-  eventpack*      evts;               /* набор событий                                  */
-  //CIRC_BUF128     inbuf;              /* программный буфер-расширитель аппаратного FIFO */
-  bool            isExtReceiver;      /* true - приемное прерывание пишет данные в буфер*/
-                                      /*   rxbuf, false - в буфер inbuf                 */
+  eventpack*      evts;               /* РЅР°Р±РѕСЂ СЃРѕР±С‹С‚РёР№                                  */
+  //CIRC_BUF128     inbuf;              /* РїСЂРѕРіСЂР°РјРјРЅС‹Р№ Р±СѓС„РµСЂ-СЂР°СЃС€РёСЂРёС‚РµР»СЊ Р°РїРїР°СЂР°С‚РЅРѕРіРѕ FIFO */
+  bool            isExtReceiver;      /* true - РїСЂРёРµРјРЅРѕРµ РїСЂРµСЂС‹РІР°РЅРёРµ РїРёС€РµС‚ РґР°РЅРЅС‹Рµ РІ Р±СѓС„РµСЂ*/
+                                      /*   rxbuf, false - РІ Р±СѓС„РµСЂ inbuf                 */
 
-  callback2*      rxcompleter;        /* обработчик завершения асинхронного чтения      */
-  unsigned char*  rxbuf;              /* указатель на буфер-аргумент функции чтения     */
-  unsigned long   rxbufLength;        /* длина буфера по указателю rxbuf                */
-  unsigned long   rxbufRemain;        /* количество байт, которое осталось прочитать в  */
-                                      /*   буфер rxbuf                                  */
+  callback2*      rxcompleter;        /* РѕР±СЂР°Р±РѕС‚С‡РёРє Р·Р°РІРµСЂС€РµРЅРёСЏ Р°СЃРёРЅС…СЂРѕРЅРЅРѕРіРѕ С‡С‚РµРЅРёСЏ      */
+  unsigned char*  rxbuf;              /* СѓРєР°Р·Р°С‚РµР»СЊ РЅР° Р±СѓС„РµСЂ-Р°СЂРіСѓРјРµРЅС‚ С„СѓРЅРєС†РёРё С‡С‚РµРЅРёСЏ     */
+  unsigned long   rxbufLength;        /* РґР»РёРЅР° Р±СѓС„РµСЂР° РїРѕ СѓРєР°Р·Р°С‚РµР»СЋ rxbuf                */
+  unsigned long   rxbufRemain;        /* РєРѕР»РёС‡РµСЃС‚РІРѕ Р±Р°Р№С‚, РєРѕС‚РѕСЂРѕРµ РѕСЃС‚Р°Р»РѕСЃСЊ РїСЂРѕС‡РёС‚Р°С‚СЊ РІ  */
+                                      /*   Р±СѓС„РµСЂ rxbuf                                  */
 
-  callback2*      txcompleter;        /* обработчик завершения асинхронной записи       */
-  unsigned char*  txbuf;              /* указатель на буфер-аргумент функции записи     */
-  unsigned long   txbufLength;        /* длина буфера по указателю txbuf                */
-  unsigned long   txbufRemain;        /* количество байт, которое осталось записать из  */
-                                      /*   буфера txbuf                                 */
+  callback2*      txcompleter;        /* РѕР±СЂР°Р±РѕС‚С‡РёРє Р·Р°РІРµСЂС€РµРЅРёСЏ Р°СЃРёРЅС…СЂРѕРЅРЅРѕР№ Р·Р°РїРёСЃРё       */
+  unsigned char*  txbuf;              /* СѓРєР°Р·Р°С‚РµР»СЊ РЅР° Р±СѓС„РµСЂ-Р°СЂРіСѓРјРµРЅС‚ С„СѓРЅРєС†РёРё Р·Р°РїРёСЃРё     */
+  unsigned long   txbufLength;        /* РґР»РёРЅР° Р±СѓС„РµСЂР° РїРѕ СѓРєР°Р·Р°С‚РµР»СЋ txbuf                */
+  unsigned long   txbufRemain;        /* РєРѕР»РёС‡РµСЃС‚РІРѕ Р±Р°Р№С‚, РєРѕС‚РѕСЂРѕРµ РѕСЃС‚Р°Р»РѕСЃСЊ Р·Р°РїРёСЃР°С‚СЊ РёР·  */
+                                      /*   Р±СѓС„РµСЂР° txbuf                                 */
 
-  void onTimedReadComplete(int, int); /* внутренний обработчик асинхронного чтения,     */
-                                      /*   используется методом readTimed()             */
-  void onTimedWriteComplete(int, int);/* внутренний обработчик асинхронной записи,      */
-                                      /*   используется методом writeTimed()            */
+  void onTimedReadComplete(int, int); /* РІРЅСѓС‚СЂРµРЅРЅРёР№ РѕР±СЂР°Р±РѕС‚С‡РёРє Р°СЃРёРЅС…СЂРѕРЅРЅРѕРіРѕ С‡С‚РµРЅРёСЏ,     */
+                                      /*   РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РјРµС‚РѕРґРѕРј readTimed()             */
+  void onTimedWriteComplete(int, int);/* РІРЅСѓС‚СЂРµРЅРЅРёР№ РѕР±СЂР°Р±РѕС‚С‡РёРє Р°СЃРёРЅС…СЂРѕРЅРЅРѕР№ Р·Р°РїРёСЃРё,      */
+                                      /*   РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РјРµС‚РѕРґРѕРј writeTimed()            */
 
-  /******************************* экспорт файла usb.c   ********************************/
-  /****************** методы настройки ножек под аппаратные реализации ******************/
+  /******************************* СЌРєСЃРїРѕСЂС‚ С„Р°Р№Р»Р° usb.c   ********************************/
+  /****************** РјРµС‚РѕРґС‹ РЅР°СЃС‚СЂРѕР№РєРё РЅРѕР¶РµРє РїРѕРґ Р°РїРїР°СЂР°С‚РЅС‹Рµ СЂРµР°Р»РёР·Р°С†РёРё ******************/
 public:
   static void pinSetupUSB0   (unsigned char setDefault);
   static void pinSetupUSB1   (unsigned char setDefault);
 private:
-  static void irqh(void* _this);      /* обработчик прерываний порта                    */
+  static void irqh(void* _this);      /* РѕР±СЂР°Р±РѕС‚С‡РёРє РїСЂРµСЂС‹РІР°РЅРёР№ РїРѕСЂС‚Р°                    */
   void usbReset();
   //unsigned long  usbOpen         (void                                                                 );
   unsigned long  usbInit         (const portSettings* ps                                              );
@@ -116,7 +116,7 @@ private:
 
   void usbIRQhErrInt  (void);
 
-  /******************************* экспорт файла usbuser.c ******************************/
+  /******************************* СЌРєСЃРїРѕСЂС‚ С„Р°Р№Р»Р° usbuser.c ******************************/
   //void (*const usbEPHandler[16])(unsigned long event);
   callback1* usbEPHandler[16];
   USB_SETUP_PACKET setupPacket;
@@ -149,7 +149,7 @@ private:
   void usbEPHandler15(int event);
   unsigned char usbuserGetLineCoding(void);
 
-  /******************************* экспорт файла usbcore.c ******************************/
+  /******************************* СЌРєСЃРїРѕСЂС‚ С„Р°Р№Р»Р° usbcore.c ******************************/
   unsigned short  usbcore_deviceStatus;
   unsigned char   usbcore_deviceAddress;
   unsigned char   usbcore_configuration;
@@ -171,7 +171,7 @@ private:
   unsigned char  usbcoreSetConfiguration(void);
   unsigned char  usbcoreSetInterface    (void);
 
-  /******************************* экспорт файла usbdescriptors.h ******************************/
+  /******************************* СЌРєСЃРїРѕСЂС‚ С„Р°Р№Р»Р° usbdescriptors.h ******************************/
 protected:
   unsigned char  usb_idx_serial;
   const unsigned char* usb_deviceDescriptor;
@@ -180,7 +180,7 @@ protected:
 
 };
 
-/* реентерабельная версия uart17xx (требует наличия класса mutex, неважно на чем сделанного) */
+/* СЂРµРµРЅС‚РµСЂР°Р±РµР»СЊРЅР°СЏ РІРµСЂСЃРёСЏ uart17xx (С‚СЂРµР±СѓРµС‚ РЅР°Р»РёС‡РёСЏ РєР»Р°СЃСЃР° mutex, РЅРµРІР°Р¶РЅРѕ РЅР° С‡РµРј СЃРґРµР»Р°РЅРЅРѕРіРѕ) */
 #ifdef _MUTEX_HPP__
 
 class usb_cdc_safe
@@ -190,7 +190,7 @@ public:
   uart17xx_safe(LPC_UART_TypeDef* phy, serialCreationDisposition* cd);
   virtual ~uart17xx_safe();
 
-  /******************************* реализация serialPort ********************************/
+  /******************************* СЂРµР°Р»РёР·Р°С†РёСЏ serialPort ********************************/
   virtual int init      (const portSettings& ps);
   //virtual const portSettings& settings();
   virtual int read      (unsigned char* buf, int  bufsz);
@@ -204,7 +204,7 @@ public:
   virtual int purge     (unsigned char queue);
   virtual int sendchar  (unsigned char c);
 
-  /******************************** реализация rs232Port ********************************/
+  /******************************** СЂРµР°Р»РёР·Р°С†РёСЏ rs232Port ********************************/
   //virtual int setRS232(int  pinlist);
   //virtual int getRS232(int* pinlist);
 
