@@ -35,7 +35,7 @@
 
    /* -------     MSP430X port    -------- */
 
-#ifdef  TNKERNEL_PORT_MSP430X
+#if defined(TNKERNEL_PORT_MSP430X)
 
 #include  <msp430f6638.h>  //-- MSP430X
 #include  <intrinsics.h>
@@ -114,7 +114,7 @@ extern "C"  {
 
   /* ---------  ARM port  ---------- */
 
-#elif defined  TNKERNEL_PORT_ARM
+#elif defined(TNKERNEL_PORT_ARM)
 
   /* ------------------------------- */
 
@@ -216,7 +216,7 @@ extern "C"  {
 
   /* ---------- Cortex-M3 port ----- */
 
-#elif defined  TNKERNEL_PORT_CORTEXM3
+#elif defined(TNKERNEL_PORT_CORTEXM3)
 
   /* ------------------------------- */
 
